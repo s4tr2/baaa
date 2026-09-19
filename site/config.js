@@ -5,9 +5,9 @@ window.BAAA = {
   DODO_PRODUCT_ID: "pdt_REPLACE_ME",
   DODO_TEST: false,
 
-  // Where the DMG lives. `make site` copies it to downloads/Baaa.dmg.
-  // Point this at a GitHub Release asset instead if you'd rather not host the file here.
-  DOWNLOAD_URL: "downloads/Baaa.dmg",
+  // The DMG is attached to each GitHub Release (`make release`); Firebase's free plan
+  // won't host executables. "latest" always resolves to the newest release.
+  DOWNLOAD_URL: "https://github.com/s4tr2/baaa/releases/latest/download/Baaa.dmg",
 
   PRICE: "$2.99",
   MAX_DEVICES: 2,

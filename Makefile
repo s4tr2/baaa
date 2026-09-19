@@ -2,7 +2,7 @@ APP      := Baaa
 DERIVED  := build/DerivedData
 PRODUCT  := $(DERIVED)/Build/Products/Release/$(APP).app
 
-.PHONY: all project build run icon papa install clean dmg site serve
+.PHONY: all project build run icon papa install clean dmg site serve release deploy
 
 all: build
 
@@ -49,13 +49,19 @@ dmg: build
 	hdiutil create -volname "$(APP)" -srcfolder build/dmg -ov -format UDZO $(DMG) >/dev/null
 	@echo "-> $(DMG) ($$(du -h $(DMG) | cut -f1))"
 
-# Copies the DMG and Papa's faces into the landing page folder.
-site: dmg
-	mkdir -p site/downloads site/assets
-	cp $(DMG) site/downloads/$(APP).dmg
+# Copies Papa's faces and the icon into the landing page folder.
+site:
+	mkdir -p site/assets
 	cp Baaa/Resources/papa-*.png site/assets/
 	cp Baaa/Resources/Assets.xcassets/AppIcon.appiconset/icon_512x512@1x.png site/assets/icon.png
-	@echo "-> site/ ready. Serve locally with: python3 -m http.server -d site 8080"
+	@echo "-> site/ ready. Serve locally with: make serve"
 
 serve:
 	python3 -m http.server -d site 8080
+
+# Publish the DMG as a GitHub Release (the site's download button points at "latest").
+release: dmg
+	gh release create v$$(grep MARKETING_VERSION project.yml | sed 's/.*"\(.*\)"/\1/') $(DMG) --generate-notes
+
+deploy: site
+	firebase deploy --only hosting

@@ -63,7 +63,8 @@ Landing page lives in `site/` (plain HTML/CSS/JS, no build step):
 
 ```sh
 make dmg        # build/Baaa.dmg
-make site       # copies the DMG and Papa's faces into site/
+make release    # GitHub Release with the DMG attached
+make deploy     # refresh site/assets and deploy to Firebase Hosting
 make serve      # preview at http://localhost:8080
 ```
 
@@ -73,9 +74,10 @@ The site is deployed on Firebase Hosting (project `baaa-app`):
 make site && firebase deploy --only hosting
 ```
 
-`site/downloads/` is git-ignored but is uploaded by the deploy, so run `make site`
-first to refresh the DMG. To use a custom domain, add it under Hosting in the Firebase
-console and point `website` in `ProConfig.swift` at it.
+The DMG itself is attached to GitHub Releases (`make release`), because Firebase's free
+plan refuses executable files; the site's download button points at the latest release.
+To use a custom domain, add it under Hosting in the Firebase console and point `website`
+in `ProConfig.swift` at it.
 
 ## Build
 
