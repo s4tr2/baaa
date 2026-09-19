@@ -53,8 +53,9 @@
 
     if (status && status !== "succeeded" && status !== "processing") {
       title.textContent = "Hmm. Payment didn't go through.";
-      lede.textContent = "Dodo reported: " + status + ". Nothing was charged. Try again from the pricing section, or write to us if it keeps happening.";
+      lede.textContent = "Dodo reported: " + status + ". Nothing was charged. You can try again, or write to us if it keeps happening.";
       document.getElementById("steps").hidden = true;
+      document.getElementById("retryRow").hidden = false;
     } else if (keys.length) {
       const key = keys[0];
       keyText.textContent = key;

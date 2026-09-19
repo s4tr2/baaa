@@ -12,6 +12,7 @@
   font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Inter", "Segoe UI", system-ui, sans-serif;
 }
 * { box-sizing: border-box; }
+[hidden] { display: none !important; }
 html { scroll-behavior: smooth; }
 body {
   margin: 0; background: var(--bg); color: var(--text); line-height: 1.6; font-size: 17px;
@@ -214,7 +215,11 @@ footer a:hover { color: var(--text); }
   .features { grid-template-columns: 1fr; gap: 0; }
   .faces { grid-template-columns: 1fr 1fr; }
   .macbook { aspect-ratio: 16 / 11; }
-  .bubble { left: 50%; top: 130px; transform-origin: 50% 0; transform: translateX(-50%) scale(.3); width: min(250px, 84%); }
+  .menubar { white-space: nowrap; }
+  .mb-left i { display: none; }
+  .block.open { width: 140px; height: 96px; }
+  .block .papa { height: 72px; }
+  .bubble { left: 50%; top: 108px; transform-origin: 50% 0; transform: translateX(-50%) scale(.3); width: min(250px, 84%); }
   .bubble.open { transform: translateX(-50%) scale(1); }
   .bubble::before { display: none; }
   .demo { margin-top: 48px; }
