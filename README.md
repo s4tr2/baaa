@@ -67,9 +67,15 @@ make site       # copies the DMG and Papa's faces into site/
 make serve      # preview at http://localhost:8080
 ```
 
-Deploy `site/` to any static host (Vercel, Netlify, Cloudflare Pages, GitHub Pages).
-`site/downloads/` is git-ignored; either upload the DMG with the site or point
-`DOWNLOAD_URL` in `config.js` at a GitHub Release asset.
+The site is deployed on Firebase Hosting (project `baaa-app`):
+
+```sh
+make site && firebase deploy --only hosting
+```
+
+`site/downloads/` is git-ignored but is uploaded by the deploy, so run `make site`
+first to refresh the DMG. To use a custom domain, add it under Hosting in the Firebase
+console and point `website` in `ProConfig.swift` at it.
 
 ## Build
 
