@@ -72,7 +72,8 @@
         catch { copyBtn.textContent = "Select and copy"; }
       });
       // Try to hand the key to the app straight away; the button stays as the manual path.
-      setTimeout(() => { location.href = activate.href; }, 900);
+      // (?noapp=1 skips this, handy when checking the page in a browser without Baaa.)
+      if (!q.get("noapp")) setTimeout(() => { location.href = activate.href; }, 900);
     }
   }
 
