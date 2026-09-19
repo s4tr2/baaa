@@ -49,9 +49,10 @@ dmg: build
 	hdiutil create -volname "$(APP)" -srcfolder build/dmg -ov -format UDZO $(DMG) >/dev/null
 	@echo "-> $(DMG) ($$(du -h $(DMG) | cut -f1))"
 
-# Copies Papa's faces and the icon into the landing page folder.
-site:
-	mkdir -p site/assets
+# Copies the DMG, Papa's faces and the icon into the landing page folder.
+site: dmg
+	mkdir -p site/assets site/downloads
+	cp $(DMG) site/downloads/$(APP).dmg
 	cp Baaa/Resources/papa-*.png site/assets/
 	cp Baaa/Resources/Assets.xcassets/AppIcon.appiconset/icon_512x512@1x.png site/assets/icon.png
 	@echo "-> site/ ready. Serve locally with: make serve"
@@ -63,5 +64,7 @@ serve:
 release: dmg
 	gh release create v$$(grep MARKETING_VERSION project.yml | sed 's/.*"\(.*\)"/\1/') $(DMG) --generate-notes
 
+# Needs the Firebase project on the Blaze plan (Spark refuses .dmg files and has no Functions).
 deploy: site
-	firebase deploy --only hosting
+	cd functions && npm install --silent
+	firebase deploy

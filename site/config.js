@@ -5,16 +5,16 @@ window.BAAA = {
   DODO_PRODUCT_ID: "pdt_REPLACE_ME",
   DODO_TEST: false,
 
-  // The DMG is attached to each GitHub Release (`make release`); Firebase's free plan
-  // won't host executables. "latest" always resolves to the newest release.
-  DOWNLOAD_URL: "https://github.com/s4tr2/baaa/releases/latest/download/Baaa.dmg",
+  // Served by Firebase Hosting (needs the Blaze plan; Spark refuses executables).
+  // Alternative: "https://github.com/s4tr2/baaa/releases/latest/download/Baaa.dmg"
+  // once the GitHub repo is public.
+  DOWNLOAD_URL: "downloads/Baaa.dmg",
 
-  // Optional serverless backend (see server/). When set, "Get Pro" creates a single-use
-  // Dodo checkout session through it; when empty, Dodo's static payment link is used,
-  // which already returns the license key to the thanks page.
+  // Backend = Firebase Functions behind Hosting rewrites (/api/checkout, /api/webhook).
+  // Same origin, so this stays empty; the static Dodo link is the fallback if /api fails.
   API_BASE: "",
 
-  PRICE: "$2.99",
+  PRICE: "$1.99",
   MAX_DEVICES: 2,
   VERSION: "0.2.0",
   MIN_MACOS: "macOS 14 Sonoma",

@@ -38,46 +38,58 @@ you have eaten, drunk water, called home, or gone to bed.
   from the menu bar.
 - **Private.** Everything is stored locally in UserDefaults. No account, no network.
 
-## Pro, payments and the landing page
+## Pro, payments, backend and the landing page
 
-Baaa has a free tier and a one-time **Baaa Pro** purchase sold through
+Baaa has a free tier and a one-time **Baaa Pro** purchase ($1.99, 2 Macs) sold through
 [Dodo Payments](https://dodopayments.com) license keys. Free: meals, water, movement,
 bedtime, good morning, all languages, Soft Papa, the 3D Papa. Pro: custom instructions
 (your own lines per reminder), your own reminders, Strict and Filmy Papa, call home /
 low battery / eye breaks, and your own picture.
 
-Setup, once:
+**Purchase flow.** Get Pro → Dodo checkout → Dodo emails the key and redirects to
+`/thanks?payment_id=…&status=succeeded&license_key=…` → the page shows the key and opens
+`baaa://activate?key=…` → the app activates it with Dodo's public `/licenses/activate`
+endpoint (no API key involved) and re-validates every three days. Refunds disable the
+key on Dodo's side, so Pro drops off by itself.
 
-1. In the Dodo dashboard create a one-time product, enable **License keys**, set the
-   activation limit to 2, and copy its id (`pdt_...`).
-2. Paste it into `Baaa/Pro/ProConfig.swift` (`dodoProductID`) and `site/config.js`
-   (`DODO_PRODUCT_ID`). Flip both to test mode while trying Dodo's test cards.
-3. Set `redirect_url` handling: the checkout link already sends buyers to
-   `thanks.html`, which tells them to paste the emailed key into Settings → Pro.
+**Create the product** (needs a Dodo API key from Developer → API Keys):
 
-The app talks to Dodo's `licenses/activate`, `validate` and `deactivate` endpoints
-directly (no server of yours involved), re-validates every three days, and keeps Pro
-for 30 days offline before falling back to Free.
+```sh
+DODO_API_KEY=… ./Scripts/dodo_create_product.sh          # live
+DODO_API_KEY=… DODO_MODE=test ./Scripts/dodo_create_product.sh
+```
+
+It creates the $1.99 product with a 2-activation license key and writes the `pdt_…` id
+into `Baaa/Pro/ProConfig.swift`, `site/config.js` and `functions/.env`.
+
+**Backend** is Firebase Functions in `functions/`, reached through Hosting rewrites:
+
+| Route | Purpose |
+|---|---|
+| `POST /api/checkout` | Single-use Dodo checkout session (the site falls back to the static link if this fails) |
+| `POST /api/webhook` | Verifies Dodo webhooks (Standard Webhooks HMAC) and records events in Firestore |
+| `GET /api/health` | Shows what is configured |
+
+Firebase project: `baaa-app`. **It must be on the Blaze plan**: Spark refuses `.dmg`
+files on Hosting and has no Cloud Functions. Then, once:
+
+```sh
+firebase functions:secrets:set DODO_API_KEY
+firebase functions:secrets:set DODO_WEBHOOK_SECRET     # from Dodo → Developer → Webhooks
+cp functions/.env.example functions/.env               # DODO_PRODUCT_ID, DODO_MODE, SITE_URL
+make deploy                                            # DMG + site + functions
+```
+
+Register `https://baaa-app.web.app/api/webhook` as the webhook URL in Dodo.
 
 Landing page lives in `site/` (plain HTML/CSS/JS, no build step):
 
 ```sh
 make dmg        # build/Baaa.dmg
-make release    # GitHub Release with the DMG attached
-make deploy     # refresh site/assets and deploy to Firebase Hosting
+make release    # GitHub Release with the DMG attached (alternative download host)
+make deploy     # refresh site/, deploy hosting + functions to Firebase
 make serve      # preview at http://localhost:8080
 ```
-
-The site is deployed on Firebase Hosting (project `baaa-app`):
-
-```sh
-make site && firebase deploy --only hosting
-```
-
-The DMG itself is attached to GitHub Releases (`make release`), because Firebase's free
-plan refuses executable files; the site's download button points at the latest release.
-To use a custom domain, add it under Hosting in the Firebase console and point `website`
-in `ProConfig.swift` at it.
 
 ## Build
 

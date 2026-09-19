@@ -28,7 +28,7 @@ enum ProConfig {
     /// TODO: paste the product id from the Dodo dashboard (looks like `pdt_...`).
     static let dodoProductID = "pdt_REPLACE_ME"
 
-    static let priceLabel = "$2.99"
+    static let priceLabel = "$1.99"
     static let maxDevices = 2
     static let website = URL(string: "https://baaa.app")!
     static let supportEmail = "hello@baaa.app"

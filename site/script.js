@@ -18,13 +18,12 @@
     el.href = configured ? checkoutURL : "#pricing";
     el.rel = "noopener";
     el.addEventListener("click", async e => {
-      if (!configured && !C.API_BASE) { e.preventDefault(); alert("Checkout isn't configured yet. Set DODO_PRODUCT_ID in config.js."); return; }
-      if (!C.API_BASE) return; // plain static link
+      if (!configured) { e.preventDefault(); alert("Checkout isn't configured yet. Set DODO_PRODUCT_ID in config.js."); return; }
       e.preventDefault();
       const label = el.innerHTML;
       el.innerHTML = "<span>Opening checkout…</span>";
       try {
-        const r = await fetch(C.API_BASE.replace(/\/$/, "") + "/api/checkout", {
+        const r = await fetch((C.API_BASE || "").replace(/\/$/, "") + "/api/checkout", {
           method: "POST", headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ source: "site", return_url: redirect })
         });
@@ -33,7 +32,7 @@
         location.href = j.checkout_url;
       } catch (err) {
         console.warn("checkout session failed, using static link", err);
-        if (configured) location.href = checkoutURL; else alert("Checkout isn't available right now. Please try again in a minute.");
+        location.href = checkoutURL;
         el.innerHTML = label;
       }
     });

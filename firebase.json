@@ -5,10 +5,26 @@
     "trailingSlash": false,
     "ignore": [
       "firebase.json",
-      "**/.*",
-      "**/*.dmg"
+      "**/.*"
     ],
     "headers": [
+      {
+        "source": "**/*.dmg",
+        "headers": [
+          {
+            "key": "Content-Type",
+            "value": "application/x-apple-diskimage"
+          },
+          {
+            "key": "Content-Disposition",
+            "value": "attachment; filename=\"Baaa.dmg\""
+          },
+          {
+            "key": "Cache-Control",
+            "value": "public, max-age=300"
+          }
+        ]
+      },
       {
         "source": "assets/**",
         "headers": [
@@ -18,6 +34,42 @@
           }
         ]
       }
+    ],
+    "rewrites": [
+      {
+        "source": "/api/checkout",
+        "function": {
+          "functionId": "checkout",
+          "region": "us-central1"
+        }
+      },
+      {
+        "source": "/api/webhook",
+        "function": {
+          "functionId": "webhook",
+          "region": "us-central1"
+        }
+      },
+      {
+        "source": "/api/health",
+        "function": {
+          "functionId": "health",
+          "region": "us-central1"
+        }
+      }
     ]
-  }
+  },
+  "functions": [
+    {
+      "source": "functions",
+      "codebase": "default",
+      "runtime": "nodejs20",
+      "ignore": [
+        "node_modules",
+        ".git",
+        "*.log",
+        ".env.example"
+      ]
+    }
+  ]
 }

@@ -7,5 +7,5 @@ site/downloads/
 .playwright-mcp/
 .firebase/
 firebase-debug.log
-server/.vercel/
-server/node_modules/
+functions/node_modules/
+functions/.env
