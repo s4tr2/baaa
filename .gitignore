@@ -1,0 +1,9 @@
+build/
+DerivedData/
+*.xcodeproj
+xcuserdata/
+.DS_Store
+site/downloads/
+.playwright-mcp/
+.firebase/
+firebase-debug.log
