@@ -2,8 +2,8 @@
 window.BAAA = {
   // Product id from the Dodo Payments dashboard (Products → your product → "pdt_...").
   // Set DODO_TEST to true while trying test-mode purchases.
-  DODO_PRODUCT_ID: "pdt_REPLACE_ME",
-  DODO_TEST: false,
+  DODO_PRODUCT_ID: "pdt_0NnvrB7JxweiL6XksiPSB",
+  DODO_TEST: true,
 
   // Served by Firebase Hosting (needs the Blaze plan; Spark refuses executables).
   // Alternative: "https://github.com/s4tr2/baaa/releases/latest/download/Baaa.dmg"

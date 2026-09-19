@@ -23,10 +23,10 @@ enum ProConfig {
     }
 
     /// Switch to `.test` while trying purchases with Dodo's test cards.
-    static let environment: Environment = .live
+    static let environment: Environment = .test
 
     /// TODO: paste the product id from the Dodo dashboard (looks like `pdt_...`).
-    static let dodoProductID = "pdt_REPLACE_ME"
+    static let dodoProductID = "pdt_0NnvrB7JxweiL6XksiPSB"
 
     static let priceLabel = "$1.99"
     static let maxDevices = 2
