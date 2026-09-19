@@ -39,6 +39,7 @@ enum ProConfig {
         c.queryItems = [
             URLQueryItem(name: "quantity", value: "1"),
             URLQueryItem(name: "redirect_url", value: website.appendingPathComponent("thanks").absoluteString),
+            URLQueryItem(name: "metadata_source", value: "app"),
         ]
         return c.url!
     }

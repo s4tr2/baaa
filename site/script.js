@@ -12,23 +12,67 @@
   document.querySelectorAll("[data-min-macos]").forEach(el => el.textContent = C.MIN_MACOS);
   document.querySelectorAll("[data-support]").forEach(el => { el.textContent = C.SUPPORT_EMAIL; el.href = "mailto:" + C.SUPPORT_EMAIL; });
   document.querySelectorAll("[data-download]").forEach(el => { el.href = C.DOWNLOAD_URL; el.setAttribute("download", ""); });
+  // Checkout: prefer a single-use session from our backend (carries return_url and
+  // metadata server-side); fall back to Dodo's static payment link.
   document.querySelectorAll("[data-checkout]").forEach(el => {
-    el.href = checkoutURL;
-    el.target = "_blank";
+    el.href = configured ? checkoutURL : "#pricing";
     el.rel = "noopener";
-    if (!configured) {
-      el.addEventListener("click", e => { e.preventDefault(); alert("Checkout isn't configured yet. Set DODO_PRODUCT_ID in config.js."); });
-    }
+    el.addEventListener("click", async e => {
+      if (!configured && !C.API_BASE) { e.preventDefault(); alert("Checkout isn't configured yet. Set DODO_PRODUCT_ID in config.js."); return; }
+      if (!C.API_BASE) return; // plain static link
+      e.preventDefault();
+      const label = el.innerHTML;
+      el.innerHTML = "<span>Opening checkout…</span>";
+      try {
+        const r = await fetch(C.API_BASE.replace(/\/$/, "") + "/api/checkout", {
+          method: "POST", headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ source: "site", return_url: redirect })
+        });
+        const j = await r.json();
+        if (!r.ok || !j.checkout_url) throw new Error(j.error || "no checkout_url");
+        location.href = j.checkout_url;
+      } catch (err) {
+        console.warn("checkout session failed, using static link", err);
+        if (configured) location.href = checkoutURL; else alert("Checkout isn't available right now. Please try again in a minute.");
+        el.innerHTML = label;
+      }
+    });
   });
 
-  // Thanks page: reflect Dodo's redirect params (payment_id, status).
+  // Thanks page: Dodo redirects here with payment_id, status, email and license_key.
   const title = document.getElementById("thanksTitle");
   if (title) {
-    const status = new URLSearchParams(location.search).get("status");
+    const q = new URLSearchParams(location.search);
+    const status = q.get("status");
+    const keys = (q.get("license_key") || "").split(",").map(k => k.trim()).filter(Boolean);
+    const lede = document.getElementById("thanksLede");
+    const keyBox = document.getElementById("keyBox");
+    const keyText = document.getElementById("keyText");
+    const activate = document.getElementById("activateLink");
+    const copyBtn = document.getElementById("copyKey");
+    const emailNote = document.getElementById("emailNote");
+
     if (status && status !== "succeeded" && status !== "processing") {
       title.textContent = "Hmm. Payment didn't go through.";
-      document.getElementById("thanksLede").textContent =
-        "Dodo reported: " + status + ". Nothing was charged. Try again from the pricing section, or write to us if it keeps happening.";
+      lede.textContent = "Dodo reported: " + status + ". Nothing was charged. Try again from the pricing section, or write to us if it keeps happening.";
+      document.getElementById("steps").hidden = true;
+    } else if (keys.length) {
+      const key = keys[0];
+      keyText.textContent = key;
+      keyBox.hidden = false;
+      activate.href = "baaa://activate?key=" + encodeURIComponent(key);
+      lede.textContent = keys.length > 1
+        ? "Here are your " + keys.length + " license keys. Each one works on " + C.MAX_DEVICES + " Macs."
+        : "Here's your license key. It works on " + C.MAX_DEVICES + " Macs, and we've emailed a copy too.";
+      if (keys.length > 1) keyText.textContent = keys.join("\n");
+      const email = q.get("email");
+      if (email) emailNote.textContent = "A copy went to " + email + ".";
+      copyBtn.addEventListener("click", async () => {
+        try { await navigator.clipboard.writeText(keys.join("\n")); copyBtn.textContent = "Copied"; setTimeout(() => copyBtn.textContent = "Copy", 1500); }
+        catch { copyBtn.textContent = "Select and copy"; }
+      });
+      // Try to hand the key to the app straight away; the button stays as the manual path.
+      setTimeout(() => { location.href = activate.href; }, 900);
     }
   }
 

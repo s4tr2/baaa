@@ -13,6 +13,9 @@ final class LicenseManager: ObservableObject {
         case pro(key: String, instanceID: String, activatedAt: Date)
     }
 
+    /// Who bought it, from Dodo's activation response. Shown in Settings → Pro.
+    @Published private(set) var licensedTo: String?
+
     @Published private(set) var state: State
     @Published private(set) var isBusy = false
     @Published var lastError: String?
@@ -38,12 +41,14 @@ final class LicenseManager: ObservableObject {
         var key: String
         var instanceID: String
         var activatedAt: Date
+        var email: String?
     }
 
     private init() {
         if let data = defaults.data(forKey: stateKey),
            let s = try? JSONDecoder().decode(Stored.self, from: data) {
             state = .pro(key: s.key, instanceID: s.instanceID, activatedAt: s.activatedAt)
+            licensedTo = s.email
         } else {
             state = .free
         }
@@ -60,8 +65,17 @@ final class LicenseManager: ObservableObject {
         do {
             let instance: ActivateResponse = try await post("licenses/activate",
                                                           body: ["license_key": key, "name": Host.current().localizedName ?? "Mac"])
-            persist(Stored(key: key, instanceID: instance.id, activatedAt: Date()))
+            // A valid key for some other product of yours shouldn't unlock Baaa.
+            if ProConfig.isConfigured, let pid = instance.product?.product_id, pid != ProConfig.dodoProductID {
+                let _: EmptyResponse? = try? await post("licenses/deactivate",
+                                                       body: ["license_key": key, "license_key_instance_id": instance.id])
+                lastError = "That key belongs to a different product."
+                return
+            }
+            let email = instance.customer?.email
+            persist(Stored(key: key, instanceID: instance.id, activatedAt: Date(), email: email))
             defaults.set(Date(), forKey: validatedKey)
+            licensedTo = email
             state = .pro(key: key, instanceID: instance.id, activatedAt: Date())
         } catch {
             lastError = friendly(error)
@@ -122,12 +136,19 @@ final class LicenseManager: ObservableObject {
     private func clear() {
         defaults.removeObject(forKey: stateKey)
         defaults.removeObject(forKey: validatedKey)
+        licensedTo = nil
         state = .free
     }
 
     // MARK: - Dodo API
 
-    private struct ActivateResponse: Decodable { let id: String }
+    private struct ActivateResponse: Decodable {
+        struct Product: Decodable { let product_id: String }
+        struct Customer: Decodable { let email: String?; let name: String? }
+        let id: String
+        let product: Product?
+        let customer: Customer?
+    }
     private struct ValidateResponse: Decodable { let valid: Bool }
     private struct EmptyResponse: Decodable {}
 
@@ -161,9 +182,11 @@ final class LicenseManager: ObservableObject {
     private func friendly(_ error: Error) -> String {
         if let e = error as? APIError {
             switch e.status {
+            // Codes as documented by Dodo for /licenses/activate.
             case 404: return "That key wasn't found. Check for typos, or copy it again from the email."
-            case 403: return "This key has already been used on \(ProConfig.maxDevices) Macs. Deactivate one first."
-            case 422, 400: return e.message
+            case 422: return "This key is already active on \(ProConfig.maxDevices) Macs. Deactivate it on one of them first."
+            case 403: return "This key has been disabled or refunded. Write to \(ProConfig.supportEmail) if that's a surprise."
+            case 400: return e.message
             default: return e.message
             }
         }

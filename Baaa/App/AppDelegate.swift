@@ -29,6 +29,18 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         }
     }
 
+    /// baaa://activate?key=XXXX  — sent by the thanks page right after checkout.
+    func application(_ application: NSApplication, open urls: [URL]) {
+        for url in urls where url.scheme == "baaa" {
+            guard url.host == "activate",
+                  let key = URLComponents(url: url, resolvingAgainstBaseURL: false)?
+                    .queryItems?.first(where: { $0.name == "key" })?.value,
+                  !key.isEmpty else { continue }
+            showSettings(tab: .pro)
+            Task { await LicenseManager.shared.activate(key: key) }
+        }
+    }
+
     func applicationShouldHandleReopen(_ sender: NSApplication, hasVisibleWindows flag: Bool) -> Bool {
         showSettings(tab: nil)
         return true

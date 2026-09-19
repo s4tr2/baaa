@@ -15,7 +15,8 @@ struct ProSettingsView: View {
                         Text(license.isPro ? "Baaa Pro is active on this Mac" : "Baaa Pro")
                             .font(.title3.weight(.semibold))
                         if let masked = license.maskedKey {
-                            Text("License \(masked)").foregroundStyle(.secondary)
+                            Text(license.licensedTo.map { "License \(masked) · \($0)" } ?? "License \(masked)")
+                                .foregroundStyle(.secondary)
                         } else {
                             Text("One-time \(ProConfig.priceLabel). Use it on \(ProConfig.maxDevices) Macs. No subscription, no account.")
                                 .foregroundStyle(.secondary)

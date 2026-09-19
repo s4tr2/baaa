@@ -16,10 +16,18 @@
     <div class="face-block big"><img src="assets/papa-proud.png" alt="Papa, proud" /></div>
     <h1 id="thanksTitle">Shabaash. Papa is proud.</h1>
     <p class="lede" id="thanksLede">Your Baaa Pro license key is on its way to your inbox from Dodo Payments. It usually lands within a minute.</p>
-    <ol class="steps">
-      <li>Open the email from Dodo Payments and copy the license key.</li>
-      <li>Click the mustache in your menu bar and choose <b>Settings…</b>.</li>
-      <li>Go to the <b>Pro</b> tab, paste the key, and press <b>Activate</b>.</li>
+    <div class="keybox" id="keyBox" hidden>
+      <pre id="keyText"></pre>
+      <div class="keybox-actions">
+        <a class="btn btn-primary" id="activateLink" href="#">Activate in Baaa</a>
+        <button class="btn" id="copyKey" type="button">Copy</button>
+      </div>
+      <p class="fineprint" id="emailNote"></p>
+    </div>
+    <ol class="steps" id="steps">
+      <li>Click <b>Activate in Baaa</b> above. If Baaa isn't installed yet, <a data-download href="#">download it</a> first, then come back or use the email.</li>
+      <li>Or do it by hand: click the mustache in your menu bar, <b>Settings…</b>, <b>Pro</b> tab, paste the key, <b>Activate</b>.</li>
+      <li>Moving Macs? Deactivate on the old one from the same tab. The key works on <span data-devices></span> at a time.</li>
     </ol>
     <p class="fineprint">Don't have Baaa yet? <a data-download href="#">Download it here.</a> Key didn't arrive in ten minutes? Check spam, then write to <a data-support href="#"></a> with the email you paid with.</p>
   </main>

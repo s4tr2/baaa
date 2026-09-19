@@ -202,3 +202,9 @@ footer a:hover { color: var(--text); }
   .features, .faces { grid-template-columns: 1fr 1fr; }
   .macbook { aspect-ratio: 16 / 12; }
 }
+
+/* License key box on the thanks page */
+.keybox { background: var(--card); border: 1px solid rgba(255,160,51,.45); border-radius: 20px; padding: 20px; margin: 26px auto 0; max-width: 520px; }
+.keybox pre { margin: 0 0 14px; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 20px; letter-spacing: .04em; white-space: pre-wrap; word-break: break-all; color: var(--text); }
+.keybox-actions { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+.keybox .fineprint { margin-top: 12px; }
