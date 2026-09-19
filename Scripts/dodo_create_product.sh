@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Creates the Baaa Pro product in Dodo Payments and writes its id into the app,
+# Creates the Baaapp Pro product in Dodo Payments and writes its id into the app,
 # the site and the Functions config.
 #
 #   DODO_API_KEY=… ./Scripts/dodo_create_product.sh            # live mode
@@ -14,7 +14,7 @@ MODE="${DODO_MODE:-live}"
 BASE="https://live.dodopayments.com"; [ "$MODE" = "test" ] && BASE="https://test.dodopayments.com"
 PRICE_CENTS="${PRICE_CENTS:-199}"
 ACTIVATIONS="${ACTIVATIONS:-2}"
-PRODUCT_NAME="${PRODUCT_NAME:-Baaa Pro}"
+PRODUCT_NAME="${PRODUCT_NAME:-Baaapp Pro}"
 
 api() { # api METHOD PATH [JSON]
   local method="$1" path="$2" data="${3:-}"
@@ -33,13 +33,13 @@ echo "Mode: $MODE  ($BASE)"
 ENT_BODY=$(python3 - "$ACTIVATIONS" <<'PY'
 import json,sys
 print(json.dumps({
-  "name": "Baaa Pro license key",
-  "description": "Unlocks Baaa Pro on up to %s Macs." % sys.argv[1],
+  "name": "Baaapp Pro license key",
+  "description": "Unlocks Baaapp Pro on up to %s Macs." % sys.argv[1],
   "integration_type": "license_key",
   "integration_config": {
     "activations_limit": int(sys.argv[1]),
     "fulfillment_mode": "auto",
-    "activation_message": "Thank you! Open Baaa from the menu bar → Settings → Pro, paste this key and press Activate. Or click the Activate button on the thank-you page."
+    "activation_message": "Thank you! Open Baaapp from the menu bar → Settings → Pro, paste this key and press Activate. Or click the Activate button on the thank-you page."
   }
 }))
 PY
@@ -78,7 +78,7 @@ if ent:
 else:
   body["license_key_enabled"] = True
   body["license_key_activations_limit"] = acts
-  body["license_key_activation_message"] = "Open Baaa from the menu bar → Settings → Pro, paste this key and press Activate."
+  body["license_key_activation_message"] = "Open Baaapp from the menu bar → Settings → Pro, paste this key and press Activate."
 print(json.dumps(body))
 PY
 )

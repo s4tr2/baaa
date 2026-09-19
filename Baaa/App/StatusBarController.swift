@@ -17,10 +17,10 @@ final class StatusBarController: NSObject, NSMenuDelegate {
         super.init()
 
         if let button = item.button {
-            let image = NSImage(systemSymbolName: "mustache.fill", accessibilityDescription: "Baaa")
+            let image = NSImage(systemSymbolName: "mustache.fill", accessibilityDescription: "Baaapp")
             image?.isTemplate = true
             button.image = image
-            button.toolTip = "Baaa - Papa is keeping an eye on you"
+            button.toolTip = "Baaapp - Papa is keeping an eye on you"
         }
         let menu = NSMenu()
         menu.delegate = self
@@ -64,7 +64,7 @@ final class StatusBarController: NSObject, NSMenuDelegate {
         menu.addItem(.separator())
 
         if !LicenseManager.shared.isPro {
-            let pro = makeItem("Get Baaa Pro…", #selector(getPro))
+            let pro = makeItem("Get Baaapp Pro…", #selector(getPro))
             pro.image = NSImage(systemSymbolName: "seal.fill", accessibilityDescription: nil)
             menu.addItem(pro)
         }
@@ -73,7 +73,7 @@ final class StatusBarController: NSObject, NSMenuDelegate {
         menu.addItem(launch)
         menu.addItem(makeItem("Settings…", #selector(settings), key: ","))
         menu.addItem(.separator())
-        menu.addItem(makeItem("Quit Baaa", #selector(quit), key: "q"))
+        menu.addItem(makeItem("Quit Baaapp", #selector(quit), key: "q"))
     }
 
     private func makeItem(_ title: String, _ action: Selector, key: String = "") -> NSMenuItem {

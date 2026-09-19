@@ -39,6 +39,10 @@ enum Schedule: Codable, Hashable {
     case weekly(weekday: Int, time: TimeOfDay)
     /// Fires when running on battery at or below the threshold percentage.
     case battery(threshold: Int)
+    /// Fires when plugged in and charged to at least the threshold percentage.
+    case charged(threshold: Int)
+    /// Fires when the Trash holds at least this many items.
+    case trash(minItems: Int)
 
     var summary: String {
         switch self {
@@ -54,6 +58,10 @@ enum Schedule: Codable, Hashable {
             return "\(name)s at \(t.formatted)"
         case .battery(let th):
             return "Below \(th)%"
+        case .charged(let th):
+            return th >= 100 ? "Plugged in, fully charged" : "Plugged in above \(th)%"
+        case .trash(let n):
+            return n <= 1 ? "Anything in the Trash" : "\(n) or more items in the Trash"
         }
     }
 }

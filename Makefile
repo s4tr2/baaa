@@ -1,4 +1,5 @@
-APP      := Baaa
+APP      := Baaapp
+TARGET   := Baaa
 DERIVED  := build/DerivedData
 PRODUCT  := $(DERIVED)/Build/Products/Release/$(APP).app
 
@@ -10,8 +11,8 @@ project:
 	xcodegen generate
 
 build: project
-	xcodebuild -project $(APP).xcodeproj -scheme $(APP) -configuration Release \
-		-derivedDataPath $(DERIVED) build | grep -E "error:|warning: .*$(APP)/|BUILD" || true
+	xcodebuild -project $(TARGET).xcodeproj -scheme $(TARGET) -configuration Release \
+		-derivedDataPath $(DERIVED) build | grep -E "error:|warning: .*$(TARGET)/|BUILD" || true
 	rm -rf build/$(APP).app && cp -R $(PRODUCT) build/$(APP).app
 	@echo "-> build/$(APP).app"
 
@@ -36,7 +37,7 @@ install: build
 	@echo "-> /Applications/$(APP).app"
 
 clean:
-	rm -rf build $(APP).xcodeproj
+	rm -rf build $(TARGET).xcodeproj
 
 # ---- Distribution -----------------------------------------------------------
 

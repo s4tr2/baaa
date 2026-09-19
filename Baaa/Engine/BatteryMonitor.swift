@@ -5,6 +5,8 @@ struct BatterySnapshot {
     var percent: Int
     var onBattery: Bool
     var isCharging: Bool
+    /// The system's own "fully charged" flag, which respects optimised charging.
+    var isCharged: Bool
 }
 
 enum BatteryMonitor {
@@ -21,7 +23,8 @@ enum BatteryMonitor {
             let percent = max > 0 ? Int((Double(current) / Double(max) * 100).rounded()) : current
             let state = desc[kIOPSPowerSourceStateKey] as? String
             let charging = desc[kIOPSIsChargingKey] as? Bool ?? false
-            return BatterySnapshot(percent: percent, onBattery: state == kIOPSBatteryPowerValue, isCharging: charging)
+            let charged = desc[kIOPSIsChargedKey] as? Bool ?? false
+            return BatterySnapshot(percent: percent, onBattery: state == kIOPSBatteryPowerValue, isCharging: charging, isCharged: charged)
         }
         return nil
     }

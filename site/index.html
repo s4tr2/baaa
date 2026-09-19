@@ -3,9 +3,9 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Baaa — Papa is watching. Gentle nudges from your Mac's notch.</title>
-  <meta name="description" content="Baaa puts an Indian father in your MacBook's notch. Khaana khaya? Paani piyo. Ghar phone karo. Reminders in 11 Indian languages, in three tones, with a 3D Papa who reacts." />
-  <meta property="og:title" content="Baaa — Papa is watching" />
+  <title>Baaapp — Papa is watching. Gentle nudges from your Mac's notch.</title>
+  <meta name="description" content="Baaapp puts an Indian father in your MacBook's notch. Khaana khaya? Paani piyo. Ghar phone karo. Charger nikaalo. Reminders in 11 Indian languages, in three tones, with a 3D Papa who reacts." />
+  <meta property="og:title" content="Baaapp — Papa is watching" />
   <meta property="og:description" content="Gentle (and not so gentle) nudges from Papa, straight from your Mac's notch." />
   <meta property="og:image" content="https://baaa.app/assets/papa-neutral.png" />
   <meta name="theme-color" content="#ffffff" />
@@ -14,14 +14,12 @@
 </head>
 <body>
   <header class="nav">
-    <a class="brand" href="#"><img src="assets/icon.png" alt="" width="24" height="24" /> Baaa</a>
-    <nav>
-      <a href="#features">Features</a>
-      <a href="#papa">Papa</a>
+    <a class="brand" href="#"><svg class="mark" viewBox="80 300 864 310" width="28" height="10" aria-hidden="true"><path d="M512 482C392 362 182 322 92 422C122 502 342 612 512 592C682 612 902 502 932 422C842 322 632 362 512 482Z"/></svg> Baaapp</a>
+    <div class="nav-right">
       <a href="#pricing">Pricing</a>
       <a href="#faq">FAQ</a>
-    </nav>
-    <a class="btn btn-primary btn-small" data-download href="#">Download</a>
+      <a class="btn btn-primary btn-small" data-download href="#">Download</a>
+    </div>
   </header>
 
   <main>
@@ -29,148 +27,154 @@
     <section class="hero">
       <h1>Papa is watching.</h1>
       <p class="lede">
-        A father who lives in your MacBook's notch and leans out to ask whether you've eaten,
-        drunk water, called home, or gone to bed. In your language. In his voice.
+        An Indian father who lives in your MacBook's notch. Every so often he leans out to ask
+        whether you've eaten, drunk water, called home, or gone to bed. In your language.
       </p>
       <div class="cta-row">
-        <a class="btn btn-primary" data-download href="#">Download for macOS</a>
-        <a class="btn btn-ghost" href="#pricing"><span>Get Pro for <span data-price></span></span></a>
+        <a class="btn btn-primary btn-large" data-download href="#">Download for macOS</a>
+        <a class="link-arrow" href="#pricing">Pro is <span data-price></span>, once</a>
       </div>
-      <p class="fineprint">Free. <span data-min-macos></span> or later, Apple silicon and Intel. No account. Nothing leaves your Mac.</p>
+      <p class="fineprint">Free. <span data-min-macos></span> or later. No account, no analytics, nothing leaves your Mac.</p>
+    </section>
 
-      <!-- Live demo of the notch -->
-      <div class="demo" aria-label="Demo of Baaa in the notch">
-        <div class="macbook">
-          <div class="menubar">
-            <span class="mb-left"><b></b> <strong>Finder</strong> <i>File</i> <i>Edit</i> <i>View</i></span>
-            <span class="mb-right"><i class="mb-icon mustache"></i><i class="mb-icon wifi"></i><i class="mb-icon batt"></i> Sat 1:30 PM</span>
-          </div>
-          <div class="screen">
-            <div class="notch-wrap">
-              <div class="block" id="demoBlock">
-                <img class="papa" id="demoPapa" src="assets/papa-neutral.png" alt="Papa peeking out of the notch" />
-              </div>
-              <div class="bubble" id="demoBubble">
-                <span class="speaker" id="demoSpeaker">Papa</span>
-                <p class="line" id="demoLine">Khaana khaya? 'Baad mein' nahi. Abhi jao.</p>
-                <p class="gloss" id="demoGloss">Have you eaten? Not 'later'. Go now.</p>
-                <div class="actions"><span class="pill pill-accent" id="demoDone">Theek hai Papa</span><span class="pill">10 min baad</span></div>
-              </div>
+    <!-- Live demo of the notch -->
+    <section class="demo" aria-label="Demo of Baaapp in the notch">
+      <div class="macbook">
+        <div class="menubar">
+          <span class="mb-left"><b></b> <strong>Finder</strong> <i>File</i> <i>Edit</i> <i>View</i> <i>Go</i></span>
+          <span class="mb-right"><i class="mb-icon mustache"></i><i class="mb-icon wifi"></i><i class="mb-icon batt"></i> Sat 1:30 PM</span>
+        </div>
+        <div class="screen">
+          <div class="notch-wrap">
+            <div class="block" id="demoBlock">
+              <img class="papa" id="demoPapa" src="assets/papa-neutral.png" alt="Papa peeking out of the notch" />
+            </div>
+            <div class="bubble" id="demoBubble">
+              <span class="speaker" id="demoSpeaker">Papa</span>
+              <p class="line" id="demoLine">Khaana khaya? 'Baad mein' nahi. Abhi jao.</p>
+              <p class="gloss" id="demoGloss">Have you eaten? Not 'later'. Go now.</p>
+              <div class="actions"><span class="pill pill-accent" id="demoDone">Theek hai Papa</span><span class="pill" id="demoSnooze">10 min baad</span></div>
             </div>
           </div>
         </div>
-        <p class="demo-caption">The real interface. He reacts to what he's telling you.</p>
       </div>
+      <p class="demo-caption">This is the actual interface. He pops out of the hardware notch, says his line, and reacts to it. Click <em>Theek hai Papa</em> and he smiles before ducking back in.</p>
     </section>
 
-    <!-- Features -->
+    <!-- A day with Papa -->
     <section id="features" class="section">
       <div class="section-head">
-        <h2>What he nags about</h2>
-        <p class="section-lede">Eight built-in check-ins, timed like a real dad: meals at meal times, water when you've forgotten, bedtime when you should know better.</p>
+        <h2>A day with Papa</h2>
+        <p class="section-lede">Ten check-ins, timed like a real father would time them. Every hour, every meal, every Sunday. You can move any of them.</p>
       </div>
-      <dl class="features">
-        <div><dt>Meals</dt><dd>Breakfast, lunch, dinner. "Khaana khaya?" at the hours you set.</dd></div>
-        <div><dt>Water</dt><dd>Not chai. Water. Every hour of active use.</dd></div>
-        <div><dt>Get up and move</dt><dd>Your chair has become your best friend. Time to make it jealous.</dd></div>
-        <div><dt>Bedtime</dt><dd>Laptop band. So jao. Allowed through quiet hours so it actually happens.</dd></div>
-        <div><dt>Good morning</dt><dd>A proper start. Water, a stretch, and breakfast is not optional.</dd></div>
-        <div><dt>Call home <em>Pro</em></dt><dd>Weekly, because Mummy has told the whole colony you don't call.</dd></div>
-        <div><dt>Low battery <em>Pro</em></dt><dd>The charger is not decoration. Fires when you're unplugged and low.</dd></div>
-        <div><dt>Eye breaks <em>Pro</em></dt><dd>Blink. Yes, you. You haven't blinked in ten minutes.</dd></div>
-      </dl>
+      <ol class="day">
+        <li><time>8:30 AM</time><div><h3>Good morning</h3><p class="say">Good morning beta. Din accha ho. Nashta zaroor karna.</p><p class="gloss">Good morning. Have a good day. Do eat breakfast.</p></div></li>
+        <li><time>9:00 AM</time><div><h3>Breakfast</h3><p class="say">Pehle khaana, phir laptop. Ghar ka rule hai.</p><p class="gloss">Food first, laptop later. House rule.</p></div></li>
+        <li><time>Every hour</time><div><h3>Water</h3><p class="say">Paani. Chai nahi. Paani.</p><p class="gloss">Water. Not chai. Water.</p></div></li>
+        <li><time>Every 90 min</time><div><h3>Get up and move</h3><p class="say">Kursi tera best friend ban gayi hai. Thoda jealous karo usko.</p><p class="gloss">Your chair is your best friend now. Make it jealous.</p></div></li>
+        <li><time>Every 45 min</time><div><h3>Eye break <span class="tag">Pro</span></h3><p class="say">Blink. Yes, you. You haven't blinked in ten minutes.</p></div></li>
+        <li><time>1:30 PM</time><div><h3>Lunch</h3><p class="say">Khaana khaya? 'Baad mein' nahi. Abhi jao.</p><p class="gloss">Have you eaten? Not 'later'. Go now.</p></div></li>
+        <li><time>Sun 11 AM</time><div><h3>Call home <span class="tag">Pro</span></h3><p class="say">Mummy ne poori colony ko bata diya hai ki tu phone nahi karta. Theek karo.</p><p class="gloss">Mummy has told the whole colony you don't call. Fix it.</p></div></li>
+        <li><time>At 100%</time><div><h3>Unplug the charger <span class="tag">Pro</span></h3><p class="say">100 pe hai. Lagaye rakhne se 110 nahi hoga.</p><p class="gloss">It's at 100. Keeping it plugged in won't make it 110.</p></div></li>
+        <li><time>Below 20%</time><div><h3>Low battery <span class="tag">Pro</span></h3><p class="say">Battery kam hai. Charger lagao. Kitni baar bolna padega?</p><p class="gloss">Battery is low. Plug in the charger. How many times must I say it?</p></div></li>
+        <li><time>10+ items</time><div><h3>Empty the Trash <span class="tag">Pro</span></h3><p class="say">Yeh computer hai ya kabaad ki dukaan? Trash saaf karo.</p><p class="gloss">Is this a computer or a junk shop? Clear the Trash.</p></div></li>
+        <li><time>11:00 PM</time><div><h3>Bedtime</h3><p class="say">Raat ho gayi. Laptop band. So jao.</p><p class="gloss">It's night. Laptop off. Sleep.</p></div></li>
+      </ol>
+      <p class="aside">Quiet hours from 10 PM to 8 AM, a daily cap, nothing while you're idle, and a snooze button. Bedtime and good morning are allowed through, because that is the whole point.</p>
     </section>
 
     <!-- Papa -->
     <section id="papa" class="section">
       <div class="section-head">
-        <h2>Meet Papa</h2>
-        <p class="section-lede">A 3D father with five moods. He pops out with his usual face, then reacts to what he's saying. Tap "Theek hai Papa" and he smiles before he ducks back in.</p>
+        <h2>Five moods, one mustache</h2>
+        <p class="section-lede">He comes out with his usual face, then reacts to what he's saying. Stern when you skipped lunch, worried when the battery is low, proud when you listened.</p>
       </div>
       <div class="faces">
         <figure><div class="face-block"><img src="assets/papa-neutral.png" alt="Papa, neutral" /></div><figcaption>Neutral</figcaption></figure>
-        <figure><div class="face-block"><img src="assets/papa-happy.png" alt="Papa, happy" /></div><figcaption>Happy <span>call home</span></figcaption></figure>
-        <figure><div class="face-block"><img src="assets/papa-stern.png" alt="Papa, stern" /></div><figcaption>Stern <span>skipped lunch</span></figcaption></figure>
-        <figure><div class="face-block"><img src="assets/papa-worried.png" alt="Papa, worried" /></div><figcaption>Worried <span>low battery</span></figcaption></figure>
-        <figure><div class="face-block"><img src="assets/papa-proud.png" alt="Papa, proud" /></div><figcaption>Proud <span>you listened</span></figcaption></figure>
+        <figure><div class="face-block"><img src="assets/papa-happy.png" alt="Papa, happy" /></div><figcaption>Happy</figcaption></figure>
+        <figure><div class="face-block"><img src="assets/papa-stern.png" alt="Papa, stern" /></div><figcaption>Stern</figcaption></figure>
+        <figure><div class="face-block"><img src="assets/papa-worried.png" alt="Papa, worried" /></div><figcaption>Worried</figcaption></figure>
+        <figure><div class="face-block"><img src="assets/papa-proud.png" alt="Papa, proud" /></div><figcaption>Proud</figcaption></figure>
       </div>
+      <p class="aside">Pro lets you replace him with a photo of your actual father. He will still nag.</p>
     </section>
 
-    <!-- Languages & tones -->
-    <section class="section two-col">
-      <div>
-        <h2>Your kind of Papa</h2>
-        <p class="section-lede">Eleven languages, with the English line in grey underneath so you never miss what he meant.</p>
-        <ul class="langs">
-          <li>Hinglish</li><li>हिन्दी</li><li>தமிழ்</li><li>ਪੰਜਾਬੀ</li><li>English</li><li>मराठी</li><li>ગુજરાતી</li><li>বাংলা</li><li>മലയാളം</li><li>తెలుగు</li><li>ಕನ್ನಡ</li>
-        </ul>
+    <!-- Languages -->
+    <section class="section">
+      <div class="section-head">
+        <h2>He speaks your language</h2>
+        <p class="section-lede">Eleven of them, with the English line in grey underneath so you never miss what he meant.</p>
       </div>
-      <div>
-        <h2>Three voices</h2>
-        <div class="tones">
-          <blockquote><p>"Beta, khaana khaya? Thoda break lo aur kuch kha lo."</p><footer>Soft Papa <small>Free</small></footer></blockquote>
-          <blockquote><p>"Khaana khaya? 'Baad mein' nahi. Abhi jao."</p><footer>Strict Papa <small>Pro</small></footer></blockquote>
-          <blockquote><p>"Pet ne phone kiya tha. Complaint file kar raha hai."</p><footer>Filmy Papa <small>Pro</small></footer></blockquote>
-        </div>
+      <p class="langs">Hinglish <span>·</span> हिन्दी <span>·</span> தமிழ் <span>·</span> ਪੰਜਾਬੀ <span>·</span> English <span>·</span> मराठी <span>·</span> ગુજરાતી <span>·</span> বাংলা <span>·</span> മലയാളം <span>·</span> తెలుగు <span>·</span> ಕನ್ನಡ</p>
+    </section>
+
+    <!-- Voices -->
+    <section class="section">
+      <div class="section-head">
+        <h2>Three kinds of father</h2>
+        <p class="section-lede">Same reminder, three ways of putting it. Pick the one you grew up with.</p>
+      </div>
+      <div class="tones">
+        <blockquote><p>"Beta, khaana khaya? Thoda break lo aur kuch kha lo."</p><footer><b>Soft Papa</b> Included</footer></blockquote>
+        <blockquote><p>"Khaana khaya? 'Baad mein' nahi. Abhi jao."</p><footer><b>Strict Papa</b> <span class="tag">Pro</span></footer></blockquote>
+        <blockquote><p>"Pet ne phone kiya tha. Complaint file kar raha hai."</p><footer><b>Filmy Papa</b> <span class="tag">Pro</span></footer></blockquote>
       </div>
     </section>
 
     <!-- Pricing -->
     <section id="pricing" class="section">
       <div class="section-head">
-        <h2>Pricing</h2>
-        <p class="section-lede">One price, once. No subscription, no account. Pay with cards, UPI and more through Dodo Payments.</p>
+        <h2>Baaapp is free. Pro is <span data-price></span>, once.</h2>
+        <p class="section-lede">No subscription, no account. One payment through Dodo Payments, by card, UPI and more. The key works on <span data-devices></span> Macs.</p>
       </div>
       <div class="plans">
         <div class="plan">
           <h3>Free</h3>
-          <p class="price">$0 <span>forever</span></p>
           <ul>
             <li>Meals, water, movement, bedtime, good morning</li>
-            <li>All 11 languages</li>
+            <li>All eleven languages</li>
             <li>Soft Papa</li>
             <li>The 3D Papa with all five moods</li>
             <li>Quiet hours, snooze, daily limit</li>
             <li>Launch at login</li>
           </ul>
-          <a class="btn btn-ghost btn-block" data-download href="#">Download</a>
+          <a class="btn btn-ghost" data-download href="#">Download</a>
         </div>
         <div class="plan plan-pro">
-          <h3>Pro</h3>
-          <p class="price"><span data-price></span> <span>one-time, <span data-devices></span> Macs</span></p>
+          <h3>Pro <span class="price"><span data-price></span></span></h3>
           <ul>
             <li><b>Custom instructions.</b> Write exactly what he says, per reminder.</li>
             <li><b>Your own reminders.</b> Medicines, tulsi, the delivery guy.</li>
             <li><b>Strict Papa and Filmy Papa.</b></li>
-            <li><b>Call home, low battery, eye breaks.</b></li>
-            <li><b>Your own picture of Papa.</b> Make him your actual dad.</li>
-            <li>Everything in Free, and all future Pro features</li>
+            <li><b>Call home, battery, eye breaks, Trash.</b> Including a nudge to unplug at 100%.</li>
+            <li><b>Your own picture of Papa.</b></li>
+            <li>Everything in Free, and every future Pro feature</li>
           </ul>
-          <a class="btn btn-primary btn-block" data-checkout href="#"><span>Get Baaa Pro for <span data-price></span></span></a>
-          <p class="fineprint">You'll get a license key by email within a minute. Paste it in Baaa, Settings, Pro.</p>
+          <a class="btn btn-primary" data-checkout href="#"><span>Get Pro for <span data-price></span></span></a>
+          <p class="fineprint">The license key arrives by email within a minute. Paste it in Baaapp, Settings, Pro.</p>
         </div>
       </div>
     </section>
 
     <!-- FAQ -->
-    <section id="faq" class="section faq">
+    <section id="faq" class="section">
       <div class="section-head">
         <h2>Questions Papa gets asked</h2>
       </div>
-      <div class="faq-list">
-        <details><summary>macOS says the app "can't be opened" or is "damaged".</summary><p>The early builds aren't notarized yet. Right-click Baaa.app in Applications, choose <b>Open</b>, then <b>Open</b> again. You only need to do this once. Or run <code>xattr -cr /Applications/Baaa.app</code> in Terminal.</p></details>
-        <details><summary>My Mac doesn't have a notch.</summary><p>Then he floats in a small black island just under the menu bar. Same Papa, same bubble.</p></details>
-        <details><summary>How do I activate Pro?</summary><p>After checkout, Dodo Payments emails you a license key. Open Baaa from the menu bar, Settings, Pro tab, paste the key, Activate. It works on <span data-devices></span> Macs; deactivate on one to move it.</p></details>
-        <details><summary>What does Baaa collect?</summary><p>Nothing. Settings live in your Mac's user defaults, your picture stays in Application Support, and the only network call is checking a Pro license key with Dodo Payments if you have one. No analytics, no account, no microphone.</p></details>
-        <details><summary>Can I make him say my own things?</summary><p>That's Pro's "custom instructions": per reminder you write your own lines, use <code>{name}</code> for what he calls you, and add an English line after two slashes to show the grey translation. Or tell him to use only your lines.</p></details>
-        <details><summary>Is this related to Maaa?</summary><p>Baaa is inspired by <a href="https://www.maaa.app/" rel="noopener">Maaa</a>, the mother version. Same love, different parent. Not affiliated.</p></details>
-        <details><summary>Refunds?</summary><p>If Pro isn't for you, email <a data-support href="#"></a> within 14 days and you'll get your money back. No questions, though Papa might ask one.</p></details>
-      </div>
+      <dl class="faq">
+        <div><dt>macOS says the app "can't be opened" or is "damaged".</dt><dd>The early builds aren't notarized yet. Right-click Baaapp.app in Applications, choose <b>Open</b>, then <b>Open</b> again. Once is enough. Or run <code>xattr -cr /Applications/Baaapp.app</code> in Terminal.</dd></div>
+        <div><dt>My Mac doesn't have a notch.</dt><dd>Then he floats in a small black island just under the menu bar. Same Papa, same bubble.</dd></div>
+        <div><dt>How do I activate Pro?</dt><dd>After checkout, Dodo Payments emails you a license key. Click the mustache in the menu bar, Settings, Pro tab, paste the key, Activate. It works on <span data-devices></span> Macs; deactivate on one to move it.</dd></div>
+        <div><dt>What does Baaapp collect?</dt><dd>Nothing. Settings live in your Mac's user defaults, your picture stays in Application Support, and the only network call is checking a Pro license key with Dodo Payments if you have one. No analytics, no account, no microphone.</dd></div>
+        <div><dt>Can I make him say my own things?</dt><dd>That's Pro's custom instructions. Per reminder you write your own lines, use <code>{name}</code> for what he calls you, and add an English line after two slashes for the grey translation. Or tell him to use only your lines.</dd></div>
+        <div><dt>Is this related to Maaa?</dt><dd>Baaapp is inspired by <a href="https://www.maaa.app/" rel="noopener">Maaa</a>, the mother version. Same love, different parent. Not affiliated.</dd></div>
+        <div><dt>Refunds?</dt><dd>If Pro isn't for you, email <a data-support href="#"></a> within 14 days and you'll get your money back. No questions, though Papa might ask one.</dd></div>
+      </dl>
     </section>
   </main>
 
   <footer>
-    <p><img src="assets/icon.png" alt="" width="18" height="18" /> Baaa <span data-version></span> · Made with love, and a little bit of nagging.</p>
+    <p><svg class="mark" viewBox="80 300 864 310" width="22" height="8" aria-hidden="true"><path d="M512 482C392 362 182 322 92 422C122 502 342 612 512 592C682 612 902 502 932 422C842 322 632 362 512 482Z"/></svg> Baaapp <span data-version></span></p>
     <p><a data-support href="#"></a> · <a href="https://www.maaa.app/" rel="noopener">Maaa</a> · <a href="thanks.html">Bought Pro?</a></p>
   </footer>
 

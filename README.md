@@ -1,8 +1,8 @@
-# Baaa
+# Baaapp
 
 Gentle (and not so gentle) nudges from Papa, straight out of your Mac's notch.
 
-Baaa is the father-shaped sibling of [Maaa](https://www.maaa.app/). It lives in the
+Baaapp is the father-shaped sibling of [Maaa](https://www.maaa.app/). It lives in the
 menu bar, and every so often an Indian dad slides out of the notch to ask whether
 you have eaten, drunk water, called home, or gone to bed.
 
@@ -25,7 +25,8 @@ you have eaten, drunk water, called home, or gone to bed.
   hand-drawn Papa. `make papa` regenerates every bundled face from `Assets/papa-*-source.png`
   using Vision for background removal and a head-and-collar crop.
 - **Reminders.** Meals at fixed times, water and movement on intervals, weekly
-  call-home, bedtime, good morning, low battery, and eye breaks. Add your own
+  call-home, bedtime, good morning, low battery, unplug-the-charger when it hits
+  100%, eye breaks, and an "empty the Trash" nag when the bin piles up. Add your own
   reminders with your own messages and schedule.
 - **Customisable messages.** Add lines per reminder, or tell Papa to use only yours.
   `{name}` becomes what he calls you, `{papa}` becomes his name. Append ` // ` and an
@@ -40,11 +41,11 @@ you have eaten, drunk water, called home, or gone to bed.
 
 ## Pro, payments, backend and the landing page
 
-Baaa has a free tier and a one-time **Baaa Pro** purchase ($1.99, 2 Macs) sold through
+Baaapp has a free tier and a one-time **Baaapp Pro** purchase ($1.99, 2 Macs) sold through
 [Dodo Payments](https://dodopayments.com) license keys. Free: meals, water, movement,
 bedtime, good morning, all languages, Soft Papa, the 3D Papa. Pro: custom instructions
 (your own lines per reminder), your own reminders, Strict and Filmy Papa, call home /
-low battery / eye breaks, and your own picture.
+low battery / unplug / eye breaks / Trash, and your own picture.
 
 **Purchase flow.** Get Pro → Dodo checkout → Dodo emails the key and redirects to
 `/thanks?payment_id=…&status=succeeded&license_key=…` → the page shows the key and opens
@@ -85,7 +86,7 @@ Register `https://baaa-app.web.app/api/webhook` as the webhook URL in Dodo.
 Landing page lives in `site/` (plain HTML/CSS/JS, no build step):
 
 ```sh
-make dmg        # build/Baaa.dmg
+make dmg        # build/Baaapp.dmg
 make release    # GitHub Release with the DMG attached (alternative download host)
 make deploy     # refresh site/, deploy hosting + functions to Firebase
 make serve      # preview at http://localhost:8080
@@ -96,11 +97,11 @@ make serve      # preview at http://localhost:8080
 Requires Xcode 26 (macOS 14 deployment target) and [xcodegen](https://github.com/yonaskolb/XcodeGen).
 
 ```sh
-make            # regenerates the Xcode project, builds Release into build/Baaa.app
+make            # regenerates the Xcode project, builds Release into build/Baaapp.app
 make run        # builds then launches
 make icon       # re-renders the app icon from Scripts/generate_icon.swift
 make papa       # rebuilds the bundled Papa faces from Assets/papa-*-source.png
-make install    # copies build/Baaa.app to /Applications
+make install    # copies build/Baaapp.app to /Applications
 ```
 
 Or open `Baaa.xcodeproj` after `xcodegen generate` and hit Run.

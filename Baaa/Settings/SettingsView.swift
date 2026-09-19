@@ -93,7 +93,7 @@ struct GeneralSettingsView: View {
             }
 
             Section("System") {
-                Toggle("Launch Baaa at login", isOn: $launchAtLogin)
+                Toggle("Launch Baaapp at login", isOn: $launchAtLogin)
                     .onChange(of: launchAtLogin) { _, new in
                         if !LaunchAtLogin.set(new) { launchAtLogin = LaunchAtLogin.isEnabled }
                     }
@@ -196,7 +196,7 @@ private struct ReminderRow: View {
                         Text(config.kind.title)
                         if locked { Image(systemName: "lock.fill").font(.caption2).foregroundStyle(.secondary) }
                     }
-                    Text(locked ? "Baaa Pro" : (config.enabled ? config.schedule.summary : "Off"))
+                    Text(locked ? "Baaapp Pro" : (config.enabled ? config.schedule.summary : "Off"))
                         .font(.caption)
                         .foregroundStyle(.secondary)
                 }
@@ -255,8 +255,10 @@ struct ScheduleEditor: View {
     var allowBattery = true
 
     private enum Mode: String, CaseIterable, Identifiable {
-        case every = "Every few hours", at = "At fixed times", weekly = "Once a week", battery = "On low battery"
+        case every = "Every few hours", at = "At fixed times", weekly = "Once a week", battery = "On low battery",
+             charged = "When fully charged", trash = "When the Trash piles up"
         var id: String { rawValue }
+        var needsHardware: Bool { self == .battery || self == .charged || self == .trash }
     }
 
     private var mode: Mode {
@@ -265,12 +267,14 @@ struct ScheduleEditor: View {
         case .at: return .at
         case .weekly: return .weekly
         case .battery: return .battery
+        case .charged: return .charged
+        case .trash: return .trash
         }
     }
 
     var body: some View {
         Picker("Schedule", selection: Binding(get: { mode }, set: { switchMode($0) })) {
-            ForEach(Mode.allCases.filter { allowBattery || $0 != .battery }) { Text($0.rawValue).tag($0) }
+            ForEach(Mode.allCases.filter { allowBattery || !$0.needsHardware }) { Text($0.rawValue).tag($0) }
         }
 
         switch schedule {
@@ -325,6 +329,22 @@ struct ScheduleEditor: View {
                 Slider(value: Binding(get: { Double(threshold) }, set: { schedule = .battery(threshold: Int($0)) }), in: 5...50, step: 5)
                 Text("\(threshold)%").monospacedDigit().frame(width: 40, alignment: .trailing)
             }
+
+        case .charged(let threshold):
+            HStack {
+                Text("Plugged in at or above")
+                Slider(value: Binding(get: { Double(threshold) }, set: { schedule = .charged(threshold: Int($0)) }), in: 80...100, step: 5)
+                Text("\(threshold)%").monospacedDigit().frame(width: 40, alignment: .trailing)
+            }
+            Text("At 100% he also trusts macOS's own \"fully charged\" flag, so optimised charging still counts.")
+                .font(.caption).foregroundStyle(.secondary)
+
+        case .trash(let minItems):
+            Picker("Nag when the Trash has", selection: Binding(get: { minItems }, set: { schedule = .trash(minItems: $0) })) {
+                ForEach([1, 5, 10, 25, 50, 100], id: \.self) { n in
+                    Text(n == 1 ? "anything in it" : "\(n) or more items").tag(n)
+                }
+            }
         }
     }
 
@@ -334,6 +354,8 @@ struct ScheduleEditor: View {
         case .at: schedule = .at(times: [TimeOfDay(hour: 13)])
         case .weekly: schedule = .weekly(weekday: 1, time: TimeOfDay(hour: 11))
         case .battery: schedule = .battery(threshold: 20)
+        case .charged: schedule = .charged(threshold: 100)
+        case .trash: schedule = .trash(minItems: 10)
         }
     }
 }
@@ -532,7 +554,7 @@ struct PapaSettingsView: View {
                     Text("Picture")
                 } footer: {
                     VStack(alignment: .leading, spacing: 6) {
-                        Text("Baaa ships with a 3D Papa whose face changes with the reminder. Prefer your own? Pick any PNG; a transparent or black background blends into the notch.")
+                        Text("Baaapp ships with a 3D Papa whose face changes with the reminder. Prefer your own? Pick any PNG; a transparent or black background blends into the notch.")
                         if !license.isPro { ProUpsell(feature: .customPicture) }
                     }
                 }
@@ -572,7 +594,7 @@ struct AboutView: View {
                                 width: 134, height: 114)
                     .padding(.bottom, 2)
             }
-            Text("Baaa").font(.system(size: 28, weight: .bold))
+            Text("Baaapp").font(.system(size: 28, weight: .bold))
             Text("Gentle (and not so gentle) nudges from Papa, straight from your Mac's notch.")
                 .multilineTextAlignment(.center)
                 .foregroundStyle(.secondary)

@@ -8,6 +8,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     private var engine: ReminderEngine!
     private var statusBar: StatusBarController!
     private var settingsWindow: SettingsWindowController?
+    private var onboarding: OnboardingWindowController?
 
     func applicationDidFinishLaunching(_ notification: Notification) {
         notch = NotchController(store: store)
@@ -20,13 +21,23 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         LicenseManager.shared.validateIfNeeded()
 
         if !store.settings.hasOnboarded {
-            store.settings.hasOnboarded = true
-            showSettings(tab: .papa)
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) { [weak self] in
+            showOnboarding()
+        }
+    }
+
+    /// Language, voice and names, then Papa introduces himself from the notch.
+    func showOnboarding() {
+        let controller = OnboardingWindowController(store: store) { [weak self] in
+            guard let self else { return }
+            self.store.settings.hasOnboarded = true
+            self.onboarding = nil
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) { [weak self] in
                 guard let self else { return }
                 self.notch.show(Nudge.welcome(settings: self.store.settings))
             }
         }
+        onboarding = controller
+        controller.show()
     }
 
     /// baaa://activate?key=XXXX  — sent by the thanks page right after checkout.

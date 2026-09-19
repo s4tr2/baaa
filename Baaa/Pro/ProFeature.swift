@@ -10,7 +10,7 @@ enum ProFeature: CaseIterable {
         case .customMessages: return "Custom instructions"
         case .customReminders: return "Your own reminders"
         case .tones: return "Strict Papa & Filmy Papa"
-        case .advancedReminders: return "Call home, low battery, eye breaks"
+        case .advancedReminders: return "Call home, battery, eye breaks, Trash"
         case .customPicture: return "Your own picture of Papa"
         }
     }
@@ -20,7 +20,7 @@ enum ProFeature: CaseIterable {
         case .customMessages: return "Write exactly what he says, in your words, with an English line if you like."
         case .customReminders: return "Medicines, watering the tulsi, standing up for the delivery guy."
         case .tones: return "Two more voices. One shouts, one quotes old films."
-        case .advancedReminders: return "The reminders that need a bit more of him."
+        case .advancedReminders: return "Call home, low battery, unplug the charger, eye breaks, and a full Trash. The ones that need a bit more of him."
         case .customPicture: return "Drop in any PNG and he becomes that person."
         }
     }
@@ -39,7 +39,7 @@ enum ProFeature: CaseIterable {
 extension ReminderKind {
     var isPro: Bool {
         switch self {
-        case .callHome, .lowBattery, .focusBreak: return true
+        case .callHome, .lowBattery, .focusBreak, .unplug, .trash: return true
         default: return false
         }
     }

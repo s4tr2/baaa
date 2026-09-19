@@ -5,7 +5,7 @@ enum Expression: String, Codable, CaseIterable {
 }
 
 enum ReminderKind: String, CaseIterable, Codable, Identifiable {
-    case meal, water, move, callHome, bedtime, morning, lowBattery, focusBreak
+    case meal, water, move, callHome, bedtime, morning, lowBattery, focusBreak, unplug, trash
 
     var id: String { rawValue }
 
@@ -19,6 +19,8 @@ enum ReminderKind: String, CaseIterable, Codable, Identifiable {
         case .morning: return "Good morning"
         case .lowBattery: return "Low battery"
         case .focusBreak: return "Eye break"
+        case .unplug: return "Unplug the charger"
+        case .trash: return "Empty the Trash"
         }
     }
 
@@ -32,6 +34,8 @@ enum ReminderKind: String, CaseIterable, Codable, Identifiable {
         case .morning: return "A proper start to the day."
         case .lowBattery: return "The charger is not decoration."
         case .focusBreak: return "Look away from the screen for a minute."
+        case .unplug: return "Full battery, charger still in. He notices."
+        case .trash: return "Files piling up in the bin. Clean the mess."
         }
     }
 
@@ -45,6 +49,8 @@ enum ReminderKind: String, CaseIterable, Codable, Identifiable {
         case .morning: return "sunrise.fill"
         case .lowBattery: return "battery.25percent"
         case .focusBreak: return "eye.fill"
+        case .unplug: return "battery.100percent.bolt"
+        case .trash: return "trash.fill"
         }
     }
 
@@ -58,6 +64,8 @@ enum ReminderKind: String, CaseIterable, Codable, Identifiable {
         case .morning: return .at(times: [TimeOfDay(hour: 8, minute: 30)])
         case .lowBattery: return .battery(threshold: 20)
         case .focusBreak: return .every(minutes: 45)
+        case .unplug: return .charged(threshold: 100)
+        case .trash: return .trash(minItems: 10)
         }
     }
 
@@ -74,6 +82,7 @@ enum ReminderKind: String, CaseIterable, Codable, Identifiable {
         case .callHome: return .happy
         case .morning: return .happy
         case .lowBattery: return .worried
+        case .unplug, .trash: return tone == .strict ? .stern : .neutral
         }
     }
 }

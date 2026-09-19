@@ -19,7 +19,7 @@ final class SettingsWindowController: NSObject, NSWindowDelegate {
             .environmentObject(LicenseManager.shared)
         let host = NSHostingController(rootView: root)
         window = NSWindow(contentViewController: host)
-        window.title = "Baaa"
+        window.title = "Baaapp"
         window.styleMask = [.titled, .closable, .miniaturizable]
         window.setContentSize(NSSize(width: 720, height: 540))
         window.isReleasedWhenClosed = false

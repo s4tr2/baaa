@@ -1,6 +1,6 @@
 import AppKit
 
-// Renders the Baaa app icon (a mustache + glasses on a warm saffron tile)
+// Renders the Baaapp app icon (a mustache on a warm saffron tile)
 // at every size macOS wants, into the asset catalog.
 let outDir = CommandLine.arguments.count > 1
     ? CommandLine.arguments[1]
@@ -25,38 +25,23 @@ func draw(size: CGFloat) -> NSImage {
     ctx.drawLinearGradient(grad, start: CGPoint(x: tile.minX, y: tile.maxY), end: CGPoint(x: tile.maxX, y: tile.minY), options: [])
     ctx.restoreGState()
 
-    // Glasses
-    ctx.setStrokeColor(NSColor(white: 0.12, alpha: 1).cgColor)
-    ctx.setLineWidth(38 * s)
-    ctx.setLineCap(.round)
-    let lensW = 250 * s, lensH = 190 * s
-    let cy = 610 * s
-    let left = CGRect(x: 512 * s - 40 * s - lensW, y: cy - lensH / 2, width: lensW, height: lensH)
-    let right = CGRect(x: 512 * s + 40 * s, y: cy - lensH / 2, width: lensW, height: lensH)
-    ctx.addPath(CGPath(roundedRect: left, cornerWidth: 50 * s, cornerHeight: 50 * s, transform: nil))
-    ctx.addPath(CGPath(roundedRect: right, cornerWidth: 50 * s, cornerHeight: 50 * s, transform: nil))
-    ctx.strokePath()
-    ctx.move(to: CGPoint(x: left.maxX, y: cy + 30 * s))
-    ctx.addLine(to: CGPoint(x: right.minX, y: cy + 30 * s))
-    ctx.strokePath()
-
     // Mustache
     ctx.setFillColor(NSColor(white: 0.12, alpha: 1).cgColor)
     let m = CGMutablePath()
-    let cx = 512 * s, my = 380 * s
-    m.move(to: CGPoint(x: cx, y: my + 40 * s))
-    m.addCurve(to: CGPoint(x: cx - 300 * s, y: my - 10 * s),
-               control1: CGPoint(x: cx - 90 * s, y: my + 110 * s),
-               control2: CGPoint(x: cx - 250 * s, y: my + 80 * s))
-    m.addCurve(to: CGPoint(x: cx, y: my - 30 * s),
-               control1: CGPoint(x: cx - 240 * s, y: my - 90 * s),
-               control2: CGPoint(x: cx - 90 * s, y: my - 90 * s))
-    m.addCurve(to: CGPoint(x: cx + 300 * s, y: my - 10 * s),
-               control1: CGPoint(x: cx + 90 * s, y: my - 90 * s),
-               control2: CGPoint(x: cx + 240 * s, y: my - 90 * s))
-    m.addCurve(to: CGPoint(x: cx, y: my + 40 * s),
-               control1: CGPoint(x: cx + 250 * s, y: my + 80 * s),
-               control2: CGPoint(x: cx + 90 * s, y: my + 110 * s))
+    let cx = 512 * s, my = 512 * s
+    m.move(to: CGPoint(x: cx, y: my + 30 * s))
+    m.addCurve(to: CGPoint(x: cx - 420 * s, y: my + 90 * s),
+               control1: CGPoint(x: cx - 120 * s, y: my + 150 * s),
+               control2: CGPoint(x: cx - 330 * s, y: my + 190 * s))
+    m.addCurve(to: CGPoint(x: cx, y: my - 80 * s),
+               control1: CGPoint(x: cx - 390 * s, y: my + 10 * s),
+               control2: CGPoint(x: cx - 170 * s, y: my - 100 * s))
+    m.addCurve(to: CGPoint(x: cx + 420 * s, y: my + 90 * s),
+               control1: CGPoint(x: cx + 170 * s, y: my - 100 * s),
+               control2: CGPoint(x: cx + 390 * s, y: my + 10 * s))
+    m.addCurve(to: CGPoint(x: cx, y: my + 30 * s),
+               control1: CGPoint(x: cx + 330 * s, y: my + 190 * s),
+               control2: CGPoint(x: cx + 120 * s, y: my + 150 * s))
     m.closeSubpath()
     ctx.addPath(m)
     ctx.fillPath()

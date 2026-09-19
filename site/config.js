@@ -5,9 +5,9 @@ window.BAAA = {
   DODO_PRODUCT_ID: "pdt_0NnvtWeB56KBh3VoNkzAH",
   DODO_TEST: false,
 
-  // Latest GitHub Release asset (repo is public). Switch to "downloads/Baaa.dmg" if
+  // Latest GitHub Release asset (repo is public). Switch to "downloads/Baaapp.dmg" if
   // you move the file onto Firebase Hosting after upgrading to Blaze.
-  DOWNLOAD_URL: "https://github.com/s4tr2/baaa/releases/latest/download/Baaa.dmg",
+  DOWNLOAD_URL: "https://github.com/s4tr2/baaa/releases/latest/download/Baaapp.dmg",
 
   // Backend = Firebase Functions behind Hosting rewrites (/api/checkout, /api/webhook).
   // Same origin, so this stays empty; the static Dodo link is the fallback if /api fails.

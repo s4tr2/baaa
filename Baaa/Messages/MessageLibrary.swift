@@ -92,6 +92,22 @@ enum MessageLibrary {
                     .soft: ["Give your eyes a rest, {name}. Look out of the window a bit.", "Close your eyes for twenty seconds. Go on."],
                     .funny: ["Blink. Yes, you. You haven't blinked in ten minutes.", "Your eyes have applied for leave. Grant it."],
                 ],
+                .unplug: [
+                    .strict: ["Battery is full. Take the charger out. Electricity is not free.",
+                             "100 percent. Unplug it. Do you want the battery to swell?"],
+                    .soft: ["It's fully charged, {name}. You can unplug it now.",
+                             "The charger can come off now. The battery will thank you."],
+                    .funny: ["It's at 100. Keeping it plugged in won't make it 110.",
+                             "The laptop is full. Stop feeding it."],
+                ],
+                .trash: [
+                    .strict: ["Your Trash is overflowing. Empty it. Now.",
+                             "Is this a computer or a dumping ground? Clear the Trash."],
+                    .soft: ["The Trash has piled up, {name}. Clear it out when you get a minute.",
+                             "A quick clean-up: empty the Trash."],
+                    .funny: ["The Trash has more files than your Documents folder. Empty it.",
+                             "Rubbish everywhere. This is a home, not a dumping ground."],
+                ],
             ]
         ),
 
@@ -167,6 +183,22 @@ enum MessageLibrary {
                             Line("Bees second aankhein band karo. Chalo.", "Close your eyes for twenty seconds. Go on.")],
                     .funny: [Line("Palak jhapkao. Haan tu. Das minute se nahi jhapkayi.", "Blink. Yes, you. You haven't blinked in ten minutes."),
                              Line("Aankhon ne chhutti ki application di hai. Approve karo.", "Your eyes have applied for leave. Approve it.")],
+                ],
+                .unplug: [
+                    .strict: [Line("Battery full hai. Charger nikaalo. Bijli free nahi aati.", "Battery is full. Take the charger out. Electricity isn't free."),
+                             Line("100 percent ho gaya. Unplug karo. Battery phulani hai kya?", "It's at 100 percent. Unplug it. Do you want the battery to swell?")],
+                    .soft: [Line("Full charge ho gaya {name}. Ab charger nikaal sakte ho.", "It's fully charged, {name}. You can unplug it now."),
+                             Line("Charger ab hata do. Battery ki umar badhegi.", "Take the charger off now. The battery will live longer.")],
+                    .funny: [Line("100 pe hai. Lagaye rakhne se 110 nahi hoga.", "It's at 100. Keeping it plugged in won't make it 110."),
+                             Line("Laptop ka pet bhar gaya. Ab khilana band karo.", "The laptop's stomach is full. Stop feeding it.")],
+                ],
+                .trash: [
+                    .strict: [Line("Trash bhar gaya hai. Khaali karo. Abhi.", "The Trash is full. Empty it. Now."),
+                             Line("Yeh computer hai ya kabaad ki dukaan? Trash saaf karo.", "Is this a computer or a junk shop? Clear the Trash.")],
+                    .soft: [Line("Trash mein bahut kuch jama ho gaya {name}. Time mile toh saaf kar do.", "A lot has piled up in the Trash, {name}. Clear it when you get a minute."),
+                             Line("Thodi safai: Trash khaali kar do.", "A little cleaning: empty the Trash.")],
+                    .funny: [Line("Trash mein Documents se zyada files hain. Khaali karo.", "The Trash has more files than Documents. Empty it."),
+                             Line("Kachra phailaya hua hai. Yeh ghar hai, dumping ground nahi.", "Rubbish everywhere. This is a home, not a dumping ground.")],
                 ],
             ]
         ),
@@ -244,6 +276,22 @@ enum MessageLibrary {
                     .funny: [Line("पलक झपकाओ। हाँ तू। दस मिनट से नहीं झपकाई।", "Blink. Yes, you. You haven't blinked in ten minutes."),
                              Line("आँखों ने छुट्टी की अर्ज़ी दी है। मंज़ूर करो।", "Your eyes have applied for leave. Approve it.")],
                 ],
+                .unplug: [
+                    .strict: [Line("बैटरी फुल है। चार्जर निकालो। बिजली मुफ़्त नहीं आती।", "Battery is full. Take the charger out. Electricity isn't free."),
+                             Line("सौ प्रतिशत हो गया। अनप्लग करो। बैटरी फुलानी है क्या?", "It's at 100 percent. Unplug it. Do you want the battery to swell?")],
+                    .soft: [Line("पूरा चार्ज हो गया {name}। अब चार्जर निकाल सकते हो।", "It's fully charged, {name}. You can unplug it now."),
+                             Line("चार्जर अब हटा दो। बैटरी की उम्र बढ़ेगी।", "Take the charger off now. The battery will live longer.")],
+                    .funny: [Line("सौ पर है। लगाए रखने से एक सौ दस नहीं होगा।", "It's at 100. Keeping it plugged in won't make it 110."),
+                             Line("लैपटॉप का पेट भर गया। अब खिलाना बंद करो।", "The laptop's stomach is full. Stop feeding it.")],
+                ],
+                .trash: [
+                    .strict: [Line("ट्रैश भर गया है। खाली करो। अभी।", "The Trash is full. Empty it. Now."),
+                             Line("यह कंप्यूटर है या कबाड़ की दुकान? ट्रैश साफ़ करो।", "Is this a computer or a junk shop? Clear the Trash.")],
+                    .soft: [Line("ट्रैश में बहुत कुछ जमा हो गया {name}। समय मिले तो साफ़ कर दो।", "A lot has piled up in the Trash, {name}. Clear it when you get a minute."),
+                             Line("थोड़ी सफ़ाई: ट्रैश खाली कर दो।", "A little cleaning: empty the Trash.")],
+                    .funny: [Line("ट्रैश में Documents से ज़्यादा फ़ाइलें हैं। खाली करो।", "The Trash has more files than Documents. Empty it."),
+                             Line("कचरा फैला हुआ है। यह घर है, डंपिंग ग्राउंड नहीं।", "Rubbish everywhere. This is a home, not a dumping ground.")],
+                ],
             ]
         ),
 
@@ -316,6 +364,22 @@ enum MessageLibrary {
                             Line("இருபது செகண்ட் கண்ணை மூடு.", "Close your eyes for twenty seconds.")],
                     .funny: [Line("கண்ணை சிமிட்டு. ஆமா நீதான். பத்து நிமிஷமா சிமிட்டல.", "Blink. Yes, you. You haven't blinked in ten minutes."),
                              Line("கண்ணு லீவ் கேட்டிருக்கு. கொடு.", "Your eyes have asked for leave. Grant it.")],
+                ],
+                .unplug: [
+                    .strict: [Line("பேட்டரி ஃபுல் ஆயிடுச்சு. சார்ஜரை எடு. கரண்ட் இலவசம் இல்லை.", "Battery is full. Take the charger out. Electricity isn't free."),
+                             Line("நூறு சதவீதம். அன்ப்ளக் பண்ணு. பேட்டரி வீங்க வேண்டுமா?", "It's at 100 percent. Unplug it. Do you want the battery to swell?")],
+                    .soft: [Line("ஃபுல் சார்ஜ் ஆயிடுச்சு {name}. இப்போ சார்ஜரை எடுத்துடலாம்.", "It's fully charged, {name}. You can unplug it now."),
+                             Line("சார்ஜரை இப்போ எடுத்துடு. பேட்டரி நீண்ட நாள் இருக்கும்.", "Take the charger off now. The battery will last longer.")],
+                    .funny: [Line("நூறுல இருக்கு. போட்டு வெச்சா நூற்றுப்பத்து ஆகாது.", "It's at 100. Keeping it plugged in won't make it 110."),
+                             Line("லேப்டாப்புக்கு வயிறு நிறைஞ்சிடுச்சு. இனி ஊட்டாதே.", "The laptop's stomach is full. Stop feeding it.")],
+                ],
+                .trash: [
+                    .strict: [Line("டிராஷ் நிறைஞ்சிடுச்சு. காலி பண்ணு. இப்பவே.", "The Trash is full. Empty it. Now."),
+                             Line("இது கம்ப்யூட்டரா இல்ல குப்பைக் கடையா? டிராஷை சுத்தம் பண்ணு.", "Is this a computer or a junk shop? Clear the Trash.")],
+                    .soft: [Line("டிராஷ்ல நிறைய சேர்ந்திடுச்சு {name}. நேரம் இருந்தா சுத்தம் பண்ணு.", "A lot has piled up in the Trash, {name}. Clear it when you get a minute."),
+                             Line("சின்ன சுத்தம்: டிராஷை காலி பண்ணு.", "A little cleaning: empty the Trash.")],
+                    .funny: [Line("Documents-ஐ விட டிராஷ்ல அதிக ஃபைல்ஸ் இருக்கு. காலி பண்ணு.", "The Trash has more files than Documents. Empty it."),
+                             Line("குப்பை எல்லா இடத்துலயும். இது வீடு, குப்பைமேடு இல்ல.", "Rubbish everywhere. This is a home, not a dump.")],
                 ],
             ]
         ),
@@ -390,6 +454,22 @@ enum MessageLibrary {
                     .funny: [Line("ਅੱਖ ਝਪਕ। ਹਾਂ ਤੂੰ। ਦਸ ਮਿੰਟ ਤੋਂ ਨਹੀਂ ਝਪਕੀ।", "Blink. Yes, you. You haven't blinked in ten minutes."),
                              Line("ਅੱਖਾਂ ਨੇ ਛੁੱਟੀ ਮੰਗੀ ਹੈ। ਦੇ ਦੇ।", "Your eyes have asked for leave. Grant it.")],
                 ],
+                .unplug: [
+                    .strict: [Line("ਬੈਟਰੀ ਫੁੱਲ ਹੈ। ਚਾਰਜਰ ਕੱਢ। ਬਿਜਲੀ ਮੁਫ਼ਤ ਨਹੀਂ ਆਉਂਦੀ।", "Battery is full. Take the charger out. Electricity isn't free."),
+                             Line("ਸੌ ਪ੍ਰਤੀਸ਼ਤ ਹੋ ਗਿਆ। ਅਨਪਲੱਗ ਕਰ। ਬੈਟਰੀ ਫੁਲਾਉਣੀ ਹੈ?", "It's at 100 percent. Unplug it. Do you want the battery to swell?")],
+                    .soft: [Line("ਪੂਰਾ ਚਾਰਜ ਹੋ ਗਿਆ {name}। ਹੁਣ ਚਾਰਜਰ ਕੱਢ ਸਕਦੇ ਹੋ।", "It's fully charged, {name}. You can unplug it now."),
+                             Line("ਚਾਰਜਰ ਹੁਣ ਹਟਾ ਦੇ। ਬੈਟਰੀ ਦੀ ਉਮਰ ਵਧੇਗੀ।", "Take the charger off now. The battery will live longer.")],
+                    .funny: [Line("ਸੌ 'ਤੇ ਹੈ। ਲਾਈ ਰੱਖਣ ਨਾਲ ਇੱਕ ਸੌ ਦਸ ਨਹੀਂ ਹੋਣਾ।", "It's at 100. Keeping it plugged in won't make it 110."),
+                             Line("ਲੈਪਟਾਪ ਦਾ ਪੇਟ ਭਰ ਗਿਆ। ਹੁਣ ਖੁਆਉਣਾ ਬੰਦ ਕਰ।", "The laptop's stomach is full. Stop feeding it.")],
+                ],
+                .trash: [
+                    .strict: [Line("ਟ੍ਰੈਸ਼ ਭਰ ਗਿਆ ਹੈ। ਖਾਲੀ ਕਰ। ਹੁਣੇ।", "The Trash is full. Empty it. Now."),
+                             Line("ਇਹ ਕੰਪਿਊਟਰ ਹੈ ਜਾਂ ਕਬਾੜ ਦੀ ਦੁਕਾਨ? ਟ੍ਰੈਸ਼ ਸਾਫ਼ ਕਰ।", "Is this a computer or a junk shop? Clear the Trash.")],
+                    .soft: [Line("ਟ੍ਰੈਸ਼ ਵਿੱਚ ਬਹੁਤ ਕੁਝ ਜਮ੍ਹਾ ਹੋ ਗਿਆ {name}। ਸਮਾਂ ਮਿਲੇ ਤਾਂ ਸਾਫ਼ ਕਰ ਦੇ।", "A lot has piled up in the Trash, {name}. Clear it when you get a minute."),
+                             Line("ਥੋੜ੍ਹੀ ਸਫ਼ਾਈ: ਟ੍ਰੈਸ਼ ਖਾਲੀ ਕਰ ਦੇ।", "A little cleaning: empty the Trash.")],
+                    .funny: [Line("ਟ੍ਰੈਸ਼ ਵਿੱਚ Documents ਤੋਂ ਵੱਧ ਫ਼ਾਈਲਾਂ ਹਨ। ਖਾਲੀ ਕਰ।", "The Trash has more files than Documents. Empty it."),
+                             Line("ਕੂੜਾ ਫੈਲਿਆ ਹੋਇਆ ਹੈ। ਇਹ ਘਰ ਹੈ, ਡੰਪਿੰਗ ਗਰਾਊਂਡ ਨਹੀਂ।", "Rubbish everywhere. This is a home, not a dumping ground.")],
+                ],
             ]
         ),
 
@@ -416,6 +496,10 @@ enum MessageLibrary {
                                       Line("लॅपटॉप बंद होण्याआधी चार्ज कर.", "Charge the laptop before it dies.")]],
                 .focusBreak: [.soft: [Line("डोळ्यांना थोडा आराम दे {name}. खिडकीतून बाहेर बघ.", "Rest your eyes a little, {name}. Look out of the window."),
                                       Line("वीस सेकंद डोळे बंद कर.", "Close your eyes for twenty seconds.")]],
+                .unplug: [.soft: [Line("पूर्ण चार्ज झालं {name}. आता चार्जर काढ.", "It's fully charged, {name}. Unplug it now."),
+                                  Line("चार्जर आता काढून ठेव. बॅटरी जास्त टिकेल.", "Take the charger off now. The battery will last longer.")]],
+                .trash: [.soft: [Line("ट्रॅशमध्ये खूप साचलं आहे {name}. वेळ मिळाला तर साफ कर.", "A lot has piled up in the Trash, {name}. Clear it when you get a minute."),
+                                 Line("थोडी साफसफाई: ट्रॅश रिकामा कर.", "A little cleaning: empty the Trash.")]],
             ]
         ),
 
@@ -442,6 +526,10 @@ enum MessageLibrary {
                                       Line("લેપટોપ બંધ થાય એ પહેલા ચાર્જ કર.", "Charge the laptop before it dies.")]],
                 .focusBreak: [.soft: [Line("આંખોને થોડો આરામ આપ {name}. બારીની બહાર જો.", "Rest your eyes a little, {name}. Look out of the window."),
                                       Line("વીસ સેકન્ડ આંખો બંધ કર.", "Close your eyes for twenty seconds.")]],
+                .unplug: [.soft: [Line("પૂરું ચાર્જ થઈ ગયું {name}. હવે ચાર્જર કાઢી લે.", "It's fully charged, {name}. Unplug it now."),
+                                  Line("ચાર્જર હવે કાઢી નાખ. બેટરી વધુ ચાલશે.", "Take the charger off now. The battery will last longer.")]],
+                .trash: [.soft: [Line("ટ્રૅશમાં બહુ બધું ભરાઈ ગયું છે {name}. સમય મળે તો સાફ કરી દે.", "A lot has piled up in the Trash, {name}. Clear it when you get a minute."),
+                                 Line("થોડી સફાઈ: ટ્રૅશ ખાલી કરી દે.", "A little cleaning: empty the Trash.")]],
             ]
         ),
 
@@ -468,6 +556,10 @@ enum MessageLibrary {
                                       Line("ল্যাপটপ বন্ধ হওয়ার আগে চার্জ কর।", "Charge the laptop before it dies.")]],
                 .focusBreak: [.soft: [Line("চোখকে একটু বিশ্রাম দে {name}। জানলার বাইরে দেখ।", "Rest your eyes a little, {name}. Look out of the window."),
                                       Line("কুড়ি সেকেন্ড চোখ বন্ধ কর।", "Close your eyes for twenty seconds.")]],
+                .unplug: [.soft: [Line("পুরো চার্জ হয়ে গেছে {name}। এখন চার্জার খুলে দে।", "It's fully charged, {name}. Unplug it now."),
+                                  Line("চার্জার এখন সরিয়ে দে। ব্যাটারি বেশি দিন টিকবে।", "Take the charger off now. The battery will last longer.")]],
+                .trash: [.soft: [Line("ট্র্যাশে অনেক কিছু জমে গেছে {name}। সময় পেলে পরিষ্কার করে দে।", "A lot has piled up in the Trash, {name}. Clear it when you get a minute."),
+                                 Line("একটু পরিষ্কার: ট্র্যাশ খালি করে দে।", "A little cleaning: empty the Trash.")]],
             ]
         ),
 
@@ -494,6 +586,10 @@ enum MessageLibrary {
                                       Line("ലാപ്ടോപ് ഓഫ് ആകുന്നതിന് മുൻപ് ചാർജ് ചെയ്യ്.", "Charge the laptop before it dies.")]],
                 .focusBreak: [.soft: [Line("കണ്ണിന് കുറച്ച് വിശ്രമം കൊടുക്ക് {name}. ജനലിലൂടെ പുറത്തേക്ക് നോക്ക്.", "Rest your eyes a little, {name}. Look out of the window."),
                                       Line("ഇരുപത് സെക്കൻഡ് കണ്ണടയ്ക്ക്.", "Close your eyes for twenty seconds.")]],
+                .unplug: [.soft: [Line("ഫുൾ ചാർജ് ആയി {name}. ഇപ്പോൾ ചാർജർ എടുത്തോ.", "It's fully charged, {name}. Unplug it now."),
+                                  Line("ചാർജർ ഇപ്പോൾ മാറ്റിക്കോ. ബാറ്ററി കൂടുതൽ കാലം നിൽക്കും.", "Take the charger off now. The battery will last longer.")]],
+                .trash: [.soft: [Line("ട്രാഷിൽ ഒരുപാട് കൂടിക്കിടക്കുന്നു {name}. സമയം കിട്ടുമ്പോൾ വൃത്തിയാക്ക്.", "A lot has piled up in the Trash, {name}. Clear it when you get a minute."),
+                                 Line("ഒരു ചെറിയ വൃത്തിയാക്കൽ: ട്രാഷ് കാലിയാക്ക്.", "A little cleaning: empty the Trash.")]],
             ]
         ),
 
@@ -520,6 +616,10 @@ enum MessageLibrary {
                                       Line("ల్యాప్‌టాప్ ఆగిపోయేముందు ఛార్జ్ చెయ్.", "Charge the laptop before it dies.")]],
                 .focusBreak: [.soft: [Line("కళ్లకు కొంచెం విశ్రాంతి ఇవ్వు {name}. కిటికీలోంచి బయటకు చూడు.", "Rest your eyes a little, {name}. Look out of the window."),
                                       Line("ఇరవై సెకన్లు కళ్లు మూసుకో.", "Close your eyes for twenty seconds.")]],
+                .unplug: [.soft: [Line("పూర్తిగా ఛార్జ్ అయింది {name}. ఇప్పుడు ఛార్జర్ తీసేయ్.", "It's fully charged, {name}. Unplug it now."),
+                                  Line("ఛార్జర్ ఇప్పుడు తీసేయ్. బ్యాటరీ ఎక్కువ కాలం ఉంటుంది.", "Take the charger off now. The battery will last longer.")]],
+                .trash: [.soft: [Line("ట్రాష్‌లో చాలా పేరుకుపోయింది {name}. సమయం దొరికితే క్లీన్ చెయ్.", "A lot has piled up in the Trash, {name}. Clear it when you get a minute."),
+                                 Line("చిన్న శుభ్రత: ట్రాష్ ఖాళీ చెయ్.", "A little cleaning: empty the Trash.")]],
             ]
         ),
 
@@ -546,6 +646,10 @@ enum MessageLibrary {
                                       Line("ಲ್ಯಾಪ್‌ಟಾಪ್ ಆಫ್ ಆಗೋ ಮುಂಚೆ ಚಾರ್ಜ್ ಮಾಡು.", "Charge the laptop before it dies.")]],
                 .focusBreak: [.soft: [Line("ಕಣ್ಣಿಗೆ ಸ್ವಲ್ಪ ವಿಶ್ರಾಂತಿ ಕೊಡು {name}. ಕಿಟಕಿಯಿಂದ ಹೊರಗೆ ನೋಡು.", "Rest your eyes a little, {name}. Look out of the window."),
                                       Line("ಇಪ್ಪತ್ತು ಸೆಕೆಂಡ್ ಕಣ್ಣು ಮುಚ್ಚು.", "Close your eyes for twenty seconds.")]],
+                .unplug: [.soft: [Line("ಪೂರ್ತಿ ಚಾರ್ಜ್ ಆಯ್ತು {name}. ಈಗ ಚಾರ್ಜರ್ ತೆಗಿ.", "It's fully charged, {name}. Unplug it now."),
+                                  Line("ಚಾರ್ಜರ್ ಈಗ ತೆಗೆದಿಡು. ಬ್ಯಾಟರಿ ಹೆಚ್ಚು ದಿನ ಬಾಳುತ್ತೆ.", "Take the charger off now. The battery will last longer.")]],
+                .trash: [.soft: [Line("ಟ್ರ್ಯಾಶ್‌ನಲ್ಲಿ ತುಂಬಾ ತುಂಬಿಕೊಂಡಿದೆ {name}. ಸಮಯ ಸಿಕ್ಕಾಗ ಕ್ಲೀನ್ ಮಾಡು.", "A lot has piled up in the Trash, {name}. Clear it when you get a minute."),
+                                 Line("ಸ್ವಲ್ಪ ಸ್ವಚ್ಛತೆ: ಟ್ರ್ಯಾಶ್ ಖಾಲಿ ಮಾಡು.", "A little cleaning: empty the Trash.")]],
             ]
         ),
     ]

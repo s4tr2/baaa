@@ -86,14 +86,15 @@
   const line = document.getElementById("demoLine");
   const gloss = document.getElementById("demoGloss");
   const done = document.getElementById("demoDone");
+  const snooze = document.getElementById("demoSnooze");
 
   const demos = [
-    { speaker: "Papa", line: "Khaana khaya? 'Baad mein' nahi. Abhi jao.", gloss: "Have you eaten? Not 'later'. Go now.", face: "stern" },
-    { speaker: "அப்பா", line: "அம்மா உன் குரல் கேட்டா சந்தோஷப்படுவா. ஒரு போன் பண்ணு.", gloss: "Amma would be happy to hear your voice. Give her a call.", face: "happy" },
-    { speaker: "पापा", line: "पानी। चाय नहीं। पानी।", gloss: "Water. Not chai. Water.", face: "neutral" },
-    { speaker: "Papa", line: "Battery kam hai. Charger lagao. Kitni baar bolna padega?", gloss: "Battery is low. Plug in the charger. How many times must I say it?", face: "worried" },
-    { speaker: "ਪਾਪਾ ਜੀ", line: "ਰਾਤ ਹੋ ਗਈ। ਲੈਪਟਾਪ ਬੰਦ। ਸੌਂ ਜਾ।", gloss: "It's night. Laptop off. Sleep.", face: "stern" },
-    { speaker: "Dad", line: "Your chair has become your best friend. Time to make it jealous.", gloss: "", face: "neutral" },
+    { speaker: "Papa", line: "Khaana khaya? 'Baad mein' nahi. Abhi jao.", gloss: "Have you eaten? Not 'later'. Go now.", face: "stern", done: "Theek hai Papa", snooze: "10 min baad" },
+    { speaker: "அப்பா", line: "அம்மா உன் குரல் கேட்டா சந்தோஷப்படுவா. ஒரு போன் பண்ணு.", gloss: "Amma would be happy to hear your voice. Give her a call.", face: "happy", done: "சரி அப்பா", snooze: "10 நிமிஷம்" },
+    { speaker: "पापा", line: "पानी। चाय नहीं। पानी।", gloss: "Water. Not chai. Water.", face: "neutral", done: "ठीक है पापा", snooze: "10 मिनट बाद" },
+    { speaker: "Papa", line: "Battery kam hai. Charger lagao. Kitni baar bolna padega?", gloss: "Battery is low. Plug in the charger. How many times must I say it?", face: "worried", done: "Theek hai Papa", snooze: "10 min baad" },
+    { speaker: "ਪਾਪਾ ਜੀ", line: "ਰਾਤ ਹੋ ਗਈ। ਲੈਪਟਾਪ ਬੰਦ। ਸੌਂ ਜਾ।", gloss: "It's night. Laptop off. Sleep.", face: "stern", done: "ਠੀਕ ਹੈ ਪਾਪਾ", snooze: "10 ਮਿੰਟ" },
+    { speaker: "Dad", line: "Your chair has become your best friend. Time to make it jealous.", gloss: "", face: "neutral", done: "OK Dad", snooze: "10 min" },
   ];
   const face = n => "assets/papa-" + n + ".png";
   let i = 0, timer;
@@ -104,6 +105,8 @@
     line.textContent = d.line;
     gloss.textContent = d.gloss;
     gloss.style.display = d.gloss ? "" : "none";
+    done.textContent = d.done;
+    snooze.textContent = d.snooze;
     papa.src = face("neutral");
     block.classList.add("open");
     bubble.classList.add("open");

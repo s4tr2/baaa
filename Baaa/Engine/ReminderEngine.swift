@@ -126,7 +126,7 @@ final class ReminderEngine: ObservableObject {
 
         let inQuiet = settings.quietHours.contains(now)
 
-        // Built-in reminders: time-based first, then intervals, then battery.
+        // Built-in reminders: time-based first, then conditions (battery, Trash), then intervals.
         let pro = LicenseManager.shared.isPro
         let ordered = settings.reminders.filter { $0.enabled && (pro || !$0.kind.isPro) }.sorted { a, b in
             priority(a.schedule) < priority(b.schedule)
@@ -154,7 +154,7 @@ final class ReminderEngine: ObservableObject {
     private func priority(_ s: Schedule) -> Int {
         switch s {
         case .at, .weekly: return 0
-        case .battery: return 1
+        case .battery, .charged, .trash: return 1
         case .every: return 2
         }
     }
@@ -191,6 +191,19 @@ final class ReminderEngine: ObservableObject {
             guard let b = BatteryMonitor.snapshot(), b.onBattery, !b.isCharging, b.percent <= threshold else { return nil }
             if let last = lastFired[key], now.timeIntervalSince(last) < 45 * 60 { return nil }
             return "battery"
+
+        case .charged(let threshold):
+            guard let b = BatteryMonitor.snapshot(), !b.onBattery else { return nil }
+            let full = b.percent >= threshold || (threshold >= 100 && b.isCharged)
+            guard full else { return nil }
+            // Left plugged in all day? He'll mention it again, but not every twenty seconds.
+            if let last = lastFired[key], now.timeIntervalSince(last) < 90 * 60 { return nil }
+            return "charged"
+
+        case .trash(let minItems):
+            guard TrashMonitor.itemCount() >= max(1, minItems) else { return nil }
+            if let last = lastFired[key], now.timeIntervalSince(last) < 3 * 3600 { return nil }
+            return "trash"
         }
     }
 

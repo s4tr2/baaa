@@ -12,7 +12,7 @@ struct ProSettingsView: View {
                         .font(.system(size: 34))
                         .foregroundStyle(license.isPro ? Color(red: 1.0, green: 0.62, blue: 0.20) : .secondary)
                     VStack(alignment: .leading, spacing: 4) {
-                        Text(license.isPro ? "Baaa Pro is active on this Mac" : "Baaa Pro")
+                        Text(license.isPro ? "Baaapp Pro is active on this Mac" : "Baaapp Pro")
                             .font(.title3.weight(.semibold))
                         if let masked = license.maskedKey {
                             Text(license.licensedTo.map { "License \(masked) · \($0)" } ?? "License \(masked)")
@@ -42,7 +42,7 @@ struct ProSettingsView: View {
                         Button {
                             license.openCheckout()
                         } label: {
-                            Label("Get Baaa Pro for \(ProConfig.priceLabel)", systemImage: "cart.fill")
+                            Label("Get Baaapp Pro for \(ProConfig.priceLabel)", systemImage: "cart.fill")
                         }
                         .buttonStyle(.borderedProminent)
                         .disabled(!ProConfig.isConfigured)
@@ -101,7 +101,7 @@ struct ProUpsell: View {
     var body: some View {
         HStack(spacing: 8) {
             Image(systemName: "lock.fill").foregroundStyle(.secondary)
-            Text("\(feature.title) is part of Baaa Pro.")
+            Text("\(feature.title) is part of Baaapp Pro.")
                 .foregroundStyle(.secondary)
             Button("Unlock for \(ProConfig.priceLabel)") { tabs.selected = .pro }
                 .controlSize(.small)

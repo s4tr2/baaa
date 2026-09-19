@@ -1,4 +1,4 @@
-// Baaa backend on Firebase Functions (2nd gen). Hosting rewrites /api/** here.
+// Baaapp backend on Firebase Functions (2nd gen). Hosting rewrites /api/** here.
 // Secrets (set once, after upgrading the project to Blaze):
 //   firebase functions:secrets:set DODO_API_KEY
 //   firebase functions:secrets:set DODO_WEBHOOK_SECRET
