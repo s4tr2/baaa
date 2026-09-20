@@ -3,7 +3,7 @@ TARGET   := Baaa
 DERIVED  := build/DerivedData
 PRODUCT  := $(DERIVED)/Build/Products/Release/$(APP).app
 
-.PHONY: all project build run icon papa maa install clean dmg site serve release deploy
+.PHONY: all project build run icon papa maa install clean dmg site serve release deploy downloads
 
 all: build
 
@@ -70,6 +70,10 @@ serve:
 # Publish the DMG as a GitHub Release (the site's download button points at "latest").
 release: dmg
 	gh release create v$$(grep MARKETING_VERSION project.yml | sed 's/.*"\(.*\)"/\1/') $(DMG) --generate-notes
+
+# How many times each DMG has been downloaded from GitHub Releases.
+downloads:
+	@Scripts/downloads.sh
 
 # Needs the Firebase project on the Blaze plan (Spark refuses .dmg files and has no Functions).
 deploy: site

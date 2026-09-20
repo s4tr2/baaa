@@ -111,6 +111,7 @@ make            # regenerates the Xcode project, builds Release into build/Baaap
 make run        # builds then launches
 make icon       # re-renders the app icon from Scripts/generate_icon.swift
 make papa       # rebuilds the bundled Papa faces from Assets/papa-*-source.png
+make downloads  # DMG download counts per GitHub release (needs gh)
 make install    # copies build/Baaapp.app to /Applications
 ```
 
