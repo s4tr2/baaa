@@ -38,6 +38,12 @@ you have eaten, drunk water, called home, or gone to bed.
   out untouched and the next one comes with a chappal flung out of the notch straight
   at you, tumbling as it comes, and a red-faced Papa. Done resets his patience,
   snoozing is allowed, and it can be switched off under Settings, Tone.
+- **Maa & Papa.** The Maaa crossover. Settings, Papa, Maa & Papa (or the menu bar):
+  she peeks out beside him in a wider block and the two speak with one voice, one
+  wholesome line per nudge whatever the tone, no chappal with her in the room. Their
+  lines are in English, Hinglish and Hindi (`Baaa/Messages/TogetherLibrary.swift`);
+  other languages borrow English. `make maa` rebuilds her render from
+  `Assets/maa-neutral-source.png`.
 - **Respectful pacing.** Quiet hours (default 22:00 to 08:00, bedtime and morning
   are allowed through), a daily cap, nothing while you're idle, snooze, and pause
   from the menu bar.

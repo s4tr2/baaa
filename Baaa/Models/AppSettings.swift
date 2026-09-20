@@ -59,6 +59,10 @@ struct AppSettings: Codable {
     var papaName: String = ""
     /// Empty means "use the language default".
     var childName: String = ""
+    /// Maa & Papa mode: she peeks out beside him and adds her own line to every nudge.
+    var maaJoins: Bool = false
+    /// Empty means "use the language default".
+    var maaName: String = ""
     var quietHours = QuietHours()
     var dailyLimit: Int = 12
     var displaySeconds: Double = 9
@@ -79,6 +83,10 @@ struct AppSettings: Codable {
         childName.trimmingCharacters(in: .whitespaces).isEmpty ? language.defaultChildName : childName
     }
 
+    var resolvedMaaName: String {
+        maaName.trimmingCharacters(in: .whitespaces).isEmpty ? language.defaultMaaName : maaName
+    }
+
     func reminder(_ kind: ReminderKind) -> ReminderConfig {
         reminders.first { $0.kind == kind } ?? .default(for: kind)
     }
@@ -87,7 +95,7 @@ struct AppSettings: Codable {
 
     // Tolerant decoding so settings survive new fields between versions.
     enum CodingKeys: String, CodingKey {
-        case language, tone, papaName, childName, quietHours, dailyLimit, displaySeconds, soundEnabled,
+        case language, tone, papaName, childName, maaJoins, maaName, quietHours, dailyLimit, displaySeconds, soundEnabled,
              chappalTreatment, placement, reminders, customReminders, avatar, hasOnboarded
     }
 
@@ -98,6 +106,8 @@ struct AppSettings: Codable {
         tone = try c.decodeIfPresent(Tone.self, forKey: .tone) ?? d.tone
         papaName = try c.decodeIfPresent(String.self, forKey: .papaName) ?? d.papaName
         childName = try c.decodeIfPresent(String.self, forKey: .childName) ?? d.childName
+        maaJoins = try c.decodeIfPresent(Bool.self, forKey: .maaJoins) ?? d.maaJoins
+        maaName = try c.decodeIfPresent(String.self, forKey: .maaName) ?? d.maaName
         quietHours = try c.decodeIfPresent(QuietHours.self, forKey: .quietHours) ?? d.quietHours
         dailyLimit = try c.decodeIfPresent(Int.self, forKey: .dailyLimit) ?? d.dailyLimit
         displaySeconds = try c.decodeIfPresent(Double.self, forKey: .displaySeconds) ?? d.displaySeconds

@@ -96,7 +96,8 @@ final class ReminderEngine: ObservableObject {
     func preview(message: String, expression: Expression = .neutral) {
         let settings = store.settings
         notch.show(Nudge(sourceKey: "preview", kind: nil, speaker: settings.resolvedPapaName,
-                         message: message.substituting(settings: settings), expression: expression, symbol: "text.bubble.fill"))
+                         message: message.substituting(settings: settings), expression: expression, symbol: "text.bubble.fill",
+                         coSpeaker: settings.maaJoins ? settings.resolvedMaaName : nil))
     }
 
     func snooze(_ nudge: Nudge, minutes: Int) {
@@ -238,17 +239,22 @@ final class ReminderEngine: ObservableObject {
 
     private func makeNudge(for config: ReminderConfig, settings: AppSettings, tone forced: Tone? = nil) -> Nudge {
         let pro = LicenseManager.shared.isPro
+        // Maa & Papa mode: one wholesome voice for the two of them, whatever the tone,
+        // and no chappal with her in the room. A forced tone (the chappal preview) is Papa alone.
+        let together = settings.maaJoins && forced == nil
         let tone = forced ?? (pro || !settings.tone.isPro ? settings.tone : .soft)
         var pool = pro ? config.customMessages.compactMap(Line.parseCustom) : []
         if !config.useOnlyCustom || pool.isEmpty {
-            pool += MessageLibrary.messages(for: config.kind, language: settings.language, tone: tone)
+            pool += together ? MessageLibrary.togetherLines(for: config.kind, language: settings.language)
+                             : MessageLibrary.messages(for: config.kind, language: settings.language, tone: tone)
         }
         let line = pick(from: pool, avoiding: lastMessage[config.kind.rawValue])
         let nudge = Nudge(sourceKey: config.kind.rawValue, kind: config.kind, speaker: settings.resolvedPapaName,
                           message: line.text.substituting(settings: settings),
                           subtitle: line.english?.substituting(settings: settings),
-                          expression: config.kind.expression(for: tone), symbol: config.kind.symbol)
-        if forced == nil, tone == .strict, settings.chappalTreatment,
+                          expression: config.kind.expression(for: together ? .soft : tone), symbol: config.kind.symbol,
+                          coSpeaker: together ? settings.resolvedMaaName : nil)
+        if !together, forced == nil, tone == .strict, settings.chappalTreatment,
            (ignored[config.kind.rawValue] ?? 0) >= chappalAfterIgnores {
             return nudge.escalated(with: MessageLibrary.pack(settings.language).chappal, settings: settings)
         }
@@ -261,7 +267,8 @@ final class ReminderEngine: ObservableObject {
         return Nudge(sourceKey: custom.id.uuidString, kind: nil, speaker: settings.resolvedPapaName,
                      message: line.text.substituting(settings: settings),
                      subtitle: line.english?.substituting(settings: settings),
-                     expression: custom.expression, symbol: "star.fill")
+                     expression: custom.expression, symbol: "star.fill",
+                     coSpeaker: settings.maaJoins ? settings.resolvedMaaName : nil)
     }
 
     private func pick(from pool: [Line], avoiding last: String?) -> Line {

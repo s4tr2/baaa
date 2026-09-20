@@ -30,7 +30,10 @@ final class StatusBarController: NSObject, NSMenuDelegate {
     func menuNeedsUpdate(_ menu: NSMenu) {
         menu.removeAllItems()
 
-        let header = NSMenuItem(title: engine.isPaused ? "Papa is taking a nap" : "Papa is watching", action: nil, keyEquivalent: "")
+        let duo = store.settings.maaJoins
+        let title = engine.isPaused ? (duo ? "Maa & Papa are taking a nap" : "Papa is taking a nap")
+                                    : (duo ? "Maa & Papa are watching" : "Papa is watching")
+        let header = NSMenuItem(title: title, action: nil, keyEquivalent: "")
         header.isEnabled = false
         menu.addItem(header)
         menu.addItem(.separator())
@@ -73,6 +76,10 @@ final class StatusBarController: NSObject, NSMenuDelegate {
             pro.image = NSImage(systemSymbolName: "seal.fill", accessibilityDescription: nil)
             menu.addItem(pro)
         }
+        let maa = makeItem("Maa joins Papa", #selector(toggleMaa))
+        maa.state = store.settings.maaJoins ? .on : .off
+        maa.image = NSImage(systemSymbolName: "figure.2", accessibilityDescription: nil)
+        menu.addItem(maa)
         let launch = makeItem("Launch at login", #selector(toggleLaunch))
         launch.state = LaunchAtLogin.isEnabled ? .on : .off
         menu.addItem(launch)
@@ -98,6 +105,10 @@ final class StatusBarController: NSObject, NSMenuDelegate {
     @objc private func pause1h() { engine.pause(for: 3600) }
     @objc private func pause3h() { engine.pause(for: 3 * 3600) }
     @objc private func pauseTomorrow() { engine.pauseUntilTomorrow() }
+    @objc private func toggleMaa() {
+        store.settings.maaJoins.toggle()
+        if store.settings.maaJoins { engine.nudgeNow() }
+    }
     @objc private func toggleLaunch() { LaunchAtLogin.set(!LaunchAtLogin.isEnabled) }
     @objc private func settings() { openSettings(nil) }
     @objc private func getPro() { openSettings(.pro) }

@@ -38,6 +38,23 @@ enum Language: String, CaseIterable, Codable, Identifiable {
         }
     }
 
+    /// What the app calls her by default (Maa & Papa mode). Substituted for {maa}.
+    var defaultMaaName: String {
+        switch self {
+        case .english: return "Mum"
+        case .hinglish: return "Mummy"
+        case .hindi: return "मम्मी"
+        case .tamil: return "அம்மா"
+        case .telugu: return "అమ్మ"
+        case .malayalam: return "അമ്മ"
+        case .kannada: return "ಅಮ್ಮ"
+        case .marathi: return "आई"
+        case .gujarati: return "મમ્મી"
+        case .bengali: return "মা"
+        case .punjabi: return "ਮੰਮੀ ਜੀ"
+        }
+    }
+
     /// What he calls you by default. Substituted for {name} in messages.
     var defaultChildName: String {
         switch self {

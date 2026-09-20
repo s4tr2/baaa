@@ -14,9 +14,11 @@ struct Nudge: Identifiable, Equatable {
     let symbol: String
     /// The Chappal Treatment: Strict Papa has been ignored twice and the chappal flies out of the notch.
     let chappal: Bool
+    /// Maa & Papa mode: her name. She peeks out beside him and the two of them speak as one.
+    let coSpeaker: String?
 
     init(sourceKey: String, kind: ReminderKind?, speaker: String, message: String,
-         subtitle: String? = nil, expression: Expression, symbol: String, chappal: Bool = false) {
+         subtitle: String? = nil, expression: Expression, symbol: String, chappal: Bool = false, coSpeaker: String? = nil) {
         self.sourceKey = sourceKey
         self.kind = kind
         self.speaker = speaker
@@ -25,6 +27,7 @@ struct Nudge: Identifiable, Equatable {
         self.expression = expression
         self.symbol = symbol
         self.chappal = chappal
+        self.coSpeaker = coSpeaker
     }
 
     /// The same nudge, escalated: angry face, chappal out, and the chappal line on top
@@ -32,11 +35,12 @@ struct Nudge: Identifiable, Equatable {
     func escalated(with line: Line, settings: AppSettings) -> Nudge {
         Nudge(sourceKey: sourceKey, kind: kind, speaker: speaker,
               message: line.text.substituting(settings: settings),
-              subtitle: message, expression: .angry, symbol: symbol, chappal: true)
+              subtitle: message, expression: .angry, symbol: symbol, chappal: true, coSpeaker: coSpeaker)
     }
 
     static func welcome(settings: AppSettings) -> Nudge {
-        let line = MessageLibrary.pack(settings.language).welcome
+        let together = settings.maaJoins
+        let line = together ? MessageLibrary.togetherPack(settings.language).welcome : MessageLibrary.pack(settings.language).welcome
         return Nudge(
             sourceKey: "welcome",
             kind: nil,
@@ -44,7 +48,8 @@ struct Nudge: Identifiable, Equatable {
             message: line.text.substituting(settings: settings),
             subtitle: line.english?.substituting(settings: settings),
             expression: .proud,
-            symbol: "hand.wave.fill"
+            symbol: "hand.wave.fill",
+            coSpeaker: together ? settings.resolvedMaaName : nil
         )
     }
 }
@@ -53,6 +58,7 @@ extension String {
     func substituting(settings: AppSettings) -> String {
         self.replacingOccurrences(of: "{name}", with: settings.resolvedChildName)
             .replacingOccurrences(of: "{papa}", with: settings.resolvedPapaName)
+            .replacingOccurrences(of: "{maa}", with: settings.resolvedMaaName)
     }
 }
 

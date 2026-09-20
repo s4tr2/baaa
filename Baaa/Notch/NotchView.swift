@@ -5,11 +5,13 @@ import SwiftUI
 struct NotchView: View {
     @ObservedObject var model: NotchViewModel
 
-    private var blockWidth: CGFloat { NotchController.blockWidth(forNotch: model.notchWidth) }
+    private var blockWidth: CGFloat { NotchController.blockWidth(forNotch: model.notchWidth, duo: model.duo) }
     private var flare: CGFloat { NotchController.flare }
     private var bodyHeight: CGFloat { NotchController.blockBodyHeight }
     private var bubbleWidth: CGFloat { NotchController.bubbleWidth }
     private var accent: Color { Color(red: 1.0, green: 0.62, blue: 0.20) }
+    /// Maa's colour in the bubble: rani pink against his saffron.
+    private var maaAccent: Color { Color(red: 0.86, green: 0.24, blue: 0.47) }
 
     /// The block frame includes room for the flares, but the black body is narrower,
     /// so pull the bubble back so its tail nearly touches the body.
@@ -123,21 +125,32 @@ struct NotchView: View {
         let shapeFlare: CGFloat = model.hasNotch && expanded ? flare : 0
         let shape = BlockShape(hasNotch: model.hasNotch, flare: shapeFlare, radius: 26)
 
+        let inner = blockWidth - 16
+        let duo = model.duo && model.maaImage != nil
+
         return ZStack(alignment: .bottom) {
-            PeekingPapaView(config: model.avatar,
-                            expression: model.nudge?.expression ?? .neutral,
-                            image: model.image,
-                            moodImage: model.moodImage,
-                            moodOpacity: model.moodRevealed ? 1 : 0,
-                            width: blockWidth - 16,
-                            height: bodyHeight - 4)
-                .modifier(IdleSway())
-                .scaleEffect(1 + pose.lunge * 0.08, anchor: .bottom)
-                .rotationEffect(.degrees(pose.lunge * 6), anchor: .bottom)
-                .padding(.bottom, 2)
-                // Comes down out of the notch, retracts back up into it.
-                .offset(x: pose.shake, y: expanded ? 0 : -(bodyHeight + 10))
-                .opacity(expanded ? 1 : 0.6)
+            HStack(alignment: .bottom, spacing: 0) {
+                PeekingPapaView(config: model.avatar,
+                                expression: model.nudge?.expression ?? .neutral,
+                                image: model.image,
+                                moodImage: model.moodImage,
+                                moodOpacity: model.moodRevealed ? 1 : 0,
+                                width: duo ? inner / 2 : inner,
+                                height: bodyHeight - 4)
+                    .modifier(IdleSway())
+                    .scaleEffect(1 + pose.lunge * 0.08, anchor: .bottom)
+                    .rotationEffect(.degrees(pose.lunge * 6), anchor: .bottom)
+                if duo, let maa = model.maaImage {
+                    // Maa & Papa mode: she peeks out beside him, swaying to her own rhythm.
+                    PeekingPapaView(config: AvatarConfig(), expression: .neutral, image: maa,
+                                    width: inner / 2, height: bodyHeight - 4)
+                        .modifier(IdleSway(period: 3.3))
+                }
+            }
+            .padding(.bottom, 2)
+            // Comes down out of the notch, retracts back up into it.
+            .offset(x: pose.shake, y: expanded ? 0 : -(bodyHeight + 10))
+            .opacity(expanded ? 1 : 0.6)
         }
         .frame(width: width + shapeFlare * 2, height: height, alignment: .bottom)
         .background(shape.fill(.black))
@@ -154,10 +167,19 @@ struct NotchView: View {
 
     private func bubble(_ pose: ThrowPose) -> some View {
         VStack(alignment: .leading, spacing: 5) {
-            Text(model.nudge?.speaker ?? "Papa")
-                .font(.system(size: 11, weight: .bold))
-                .foregroundStyle(accent)
-                .lineLimit(1)
+            if let maa = model.nudge?.coSpeaker {
+                // Maa & Papa mode: both names, each in their own colour, one voice below.
+                (Text(maa).foregroundStyle(maaAccent)
+                 + Text(" & ").foregroundStyle(Color(white: 0.55))
+                 + Text(model.nudge?.speaker ?? "Papa").foregroundStyle(accent))
+                    .font(.system(size: 11, weight: .bold))
+                    .lineLimit(1)
+            } else {
+                Text(model.nudge?.speaker ?? "Papa")
+                    .font(.system(size: 11, weight: .bold))
+                    .foregroundStyle(accent)
+                    .lineLimit(1)
+            }
             Text(model.nudge?.message ?? "")
                 .font(.system(size: 16, weight: .bold))
                 .foregroundStyle(Color(white: 0.08))
@@ -203,13 +225,14 @@ struct NotchView: View {
 
 /// A slow, tiny sway so a still picture reads as alive.
 private struct IdleSway: ViewModifier {
+    var period: Double = 2.6
     @State private var phase = false
 
     func body(content: Content) -> some View {
         content
             .rotationEffect(.degrees(phase ? 1.4 : -1.4), anchor: .bottom)
             .offset(y: phase ? -1.5 : 1.0)
-            .animation(.easeInOut(duration: 2.6).repeatForever(autoreverses: true), value: phase)
+            .animation(.easeInOut(duration: period).repeatForever(autoreverses: true), value: phase)
             .onAppear { phase = true }
     }
 }

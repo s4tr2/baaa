@@ -3,7 +3,7 @@ TARGET   := Baaa
 DERIVED  := build/DerivedData
 PRODUCT  := $(DERIVED)/Build/Products/Release/$(APP).app
 
-.PHONY: all project build run icon papa install clean dmg site serve release deploy
+.PHONY: all project build run icon papa maa install clean dmg site serve release deploy
 
 all: build
 
@@ -31,6 +31,12 @@ papa:
 		swift Scripts/frame_papa.swift Assets/cutouts/papa-$$e.png Baaa/Resources/papa-$$e.png 0.66 560; \
 	done
 
+# Maa (Maa & Papa mode) from Assets/maa-neutral-source.png: cutout, then head-and-neckline frame.
+maa:
+	mkdir -p Assets/cutouts
+	swift Scripts/cutout_papa.swift Assets/maa-neutral-source.png Assets/cutouts/maa-neutral.png
+	swift Scripts/frame_papa.swift Assets/cutouts/maa-neutral.png Baaa/Resources/maa-neutral.png 0.72 560
+
 install: build
 	pkill -x $(APP) 2>/dev/null || true
 	rm -rf /Applications/$(APP).app && cp -R build/$(APP).app /Applications/$(APP).app
@@ -54,7 +60,7 @@ dmg: build
 site: dmg
 	mkdir -p site/assets site/downloads
 	cp $(DMG) site/downloads/$(APP).dmg
-	cp Baaa/Resources/papa-*.png site/assets/
+	cp Baaa/Resources/papa-*.png Baaa/Resources/maa-*.png site/assets/
 	cp Baaa/Resources/Assets.xcassets/AppIcon.appiconset/icon_512x512@1x.png site/assets/icon.png
 	@echo "-> site/ ready. Serve locally with: make serve"
 

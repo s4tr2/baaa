@@ -34,6 +34,17 @@ final class AvatarImageStore: ObservableObject {
         return bundled(for: .neutral)
     }
 
+    /// Maa, for Maa & Papa mode. One render for now; she keeps the same face whatever the mood.
+    private static var maaCache: NSImage?
+    private static var maaLoaded = false
+
+    static func bundledMaa() -> NSImage? {
+        if maaLoaded { return maaCache }
+        maaLoaded = true
+        maaCache = Bundle.main.url(forResource: "maa-neutral", withExtension: "png").flatMap { NSImage(contentsOf: $0) }
+        return maaCache
+    }
+
     private init() {
         image = NSImage(contentsOf: fileURL)
     }

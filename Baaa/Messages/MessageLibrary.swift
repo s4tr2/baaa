@@ -19,6 +19,8 @@ struct Line: Hashable, ExpressibleByStringLiteral {
 struct LanguagePack {
     var welcome: Line
     var done: String
+    /// The Done button in Maa & Papa mode: "Theek hai", addressed to both of them.
+    var doneTogether: String
     var snooze: String
     /// What he says when Strict Papa has been ignored twice and the chappal flies.
     var chappal: Line
@@ -46,6 +48,7 @@ enum MessageLibrary {
         .english: LanguagePack(
             welcome: "Hello {name}. I'm {papa}. From now on I will keep an eye on you. Eat on time.",
             done: "OK Dad",
+            doneTogether: "OK",
             snooze: "10 min",
             chappal: Line("Twice I told you. Now the chappal will do the talking."),
             messages: [
@@ -118,6 +121,7 @@ enum MessageLibrary {
             welcome: Line("Namaste {name}. Main {papa} hoon. Ab se main dhyan rakhunga. Time pe khaana khao.",
                           "Hello {name}. I'm {papa}. From now on I'll keep an eye on you. Eat on time."),
             done: "Theek hai Papa",
+            doneTogether: "Theek hai",
             snooze: "10 min baad",
             chappal: Line("Do baar bola. Ab chappal udegi.", "I told you twice. Now the chappal flies."),
             messages: [
@@ -211,6 +215,7 @@ enum MessageLibrary {
             welcome: Line("नमस्ते {name}। मैं {papa} हूँ। अब से मैं ध्यान रखूँगा। समय पर खाना खाओ।",
                           "Hello {name}. I'm {papa}. From now on I'll keep an eye on you. Eat on time."),
             done: "ठीक है पापा",
+            doneTogether: "ठीक है",
             snooze: "10 मिनट बाद",
             chappal: Line("दो बार कहा। अब चप्पल उड़ेगी।", "I told you twice. Now the chappal flies."),
             messages: [
@@ -304,6 +309,7 @@ enum MessageLibrary {
             welcome: Line("வணக்கம் {name}. நான் {papa}. இனிமே நான் கவனிச்சுக்கறேன். நேரத்துக்கு சாப்பிடு.",
                           "Hello {name}. I'm {papa}. From now on I'll keep an eye on you. Eat on time."),
             done: "சரி அப்பா",
+            doneTogether: "சரி",
             snooze: "10 நிமிஷம்",
             chappal: Line("ரெண்டு தடவை சொன்னேன். இப்போ செருப்பு பறக்கும்.", "I told you twice. Now the chappal flies."),
             messages: [
@@ -394,6 +400,7 @@ enum MessageLibrary {
             welcome: Line("ਸਤਿ ਸ੍ਰੀ ਅਕਾਲ {name}। ਮੈਂ {papa} ਹਾਂ। ਹੁਣ ਤੋਂ ਮੈਂ ਧਿਆਨ ਰੱਖਾਂਗਾ। ਵੇਲੇ ਸਿਰ ਰੋਟੀ ਖਾ।",
                           "Hello {name}. I'm {papa}. From now on I'll keep an eye on you. Eat on time."),
             done: "ਠੀਕ ਹੈ ਪਾਪਾ",
+            doneTogether: "ਠੀਕ ਹੈ",
             snooze: "10 ਮਿੰਟ",
             chappal: Line("ਦੋ ਵਾਰੀ ਕਿਹਾ। ਹੁਣ ਚੱਪਲ ਉੱਡੇਗੀ।", "I told you twice. Now the chappal flies."),
             messages: [
@@ -483,6 +490,7 @@ enum MessageLibrary {
         .marathi: LanguagePack(
             welcome: Line("नमस्कार {name}. मी {papa}. आतापासून मी लक्ष ठेवीन. वेळेवर जेव.", "Hello {name}. I'm {papa}. From now on I'll keep an eye on you. Eat on time."),
             done: "बरं बाबा",
+            doneTogether: "बरं",
             snooze: "10 मिनिटांनी",
             chappal: Line("दोनदा सांगितलं. आता चप्पल उडेल.", "I told you twice. Now the chappal flies."),
             messages: [
@@ -514,6 +522,7 @@ enum MessageLibrary {
         .gujarati: LanguagePack(
             welcome: Line("નમસ્તે {name}. હું {papa}. હવેથી હું ધ્યાન રાખીશ. સમયસર જમી લે.", "Hello {name}. I'm {papa}. From now on I'll keep an eye on you. Eat on time."),
             done: "સારું પપ્પા",
+            doneTogether: "સારું",
             snooze: "10 મિનિટ પછી",
             chappal: Line("બે વાર કહ્યું. હવે ચંપલ ઉડશે.", "I told you twice. Now the chappal flies."),
             messages: [
@@ -545,6 +554,7 @@ enum MessageLibrary {
         .bengali: LanguagePack(
             welcome: Line("নমস্কার {name}। আমি {papa}। এখন থেকে আমি খেয়াল রাখব। সময়মতো খেয়ে নিস।", "Hello {name}. I'm {papa}. From now on I'll keep an eye on you. Eat on time."),
             done: "আচ্ছা বাবা",
+            doneTogether: "আচ্ছা",
             snooze: "১০ মিনিট পরে",
             chappal: Line("দুবার বলেছি। এবার চটি উড়বে।", "I told you twice. Now the chappal flies."),
             messages: [
@@ -576,6 +586,7 @@ enum MessageLibrary {
         .malayalam: LanguagePack(
             welcome: Line("നമസ്കാരം {name}. ഞാൻ {papa}. ഇനി ഞാൻ നോക്കിക്കോളാം. സമയത്ത് ഭക്ഷണം കഴിക്കണം.", "Hello {name}. I'm {papa}. From now on I'll keep an eye on you. Eat on time."),
             done: "ശരി അച്ഛാ",
+            doneTogether: "ശരി",
             snooze: "10 മിനിറ്റ്",
             chappal: Line("രണ്ടു തവണ പറഞ്ഞു. ഇനി ചെരിപ്പ് പറക്കും.", "I told you twice. Now the chappal flies."),
             messages: [
@@ -607,6 +618,7 @@ enum MessageLibrary {
         .telugu: LanguagePack(
             welcome: Line("నమస్తే {name}. నేను {papa}. ఇక నుంచి నేను చూసుకుంటాను. సమయానికి తిను.", "Hello {name}. I'm {papa}. From now on I'll keep an eye on you. Eat on time."),
             done: "సరే నాన్న",
+            doneTogether: "సరే",
             snooze: "10 నిమిషాలు",
             chappal: Line("రెండు సార్లు చెప్పాను. ఇప్పుడు చెప్పు ఎగురుతుంది.", "I told you twice. Now the chappal flies."),
             messages: [
@@ -638,6 +650,7 @@ enum MessageLibrary {
         .kannada: LanguagePack(
             welcome: Line("ನಮಸ್ಕಾರ {name}. ನಾನು {papa}. ಇನ್ನು ಮುಂದೆ ನಾನು ನೋಡಿಕೊಳ್ಳುತ್ತೇನೆ. ಸಮಯಕ್ಕೆ ಊಟ ಮಾಡು.", "Hello {name}. I'm {papa}. From now on I'll keep an eye on you. Eat on time."),
             done: "ಸರಿ ಅಪ್ಪ",
+            doneTogether: "ಸರಿ",
             snooze: "10 ನಿಮಿಷ",
             chappal: Line("ಎರಡು ಸಲ ಹೇಳಿದೆ. ಈಗ ಚಪ್ಪಲಿ ಹಾರುತ್ತೆ.", "I told you twice. Now the chappal flies."),
             messages: [

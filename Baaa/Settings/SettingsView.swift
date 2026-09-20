@@ -456,6 +456,22 @@ struct MessagesSettingsView: View {
                         }
                     }
                 }
+
+                if store.settings.maaJoins {
+                    Section("What \(store.settings.resolvedMaaName) & \(store.settings.resolvedPapaName) say together") {
+                        ForEach(MessageLibrary.togetherLines(for: kind, language: store.settings.language), id: \.self) { line in
+                            VStack(alignment: .leading, spacing: 2) {
+                                Text(line.text.substituting(settings: store.settings))
+                                    .font(.callout)
+                                if let en = line.english {
+                                    Text(en.substituting(settings: store.settings))
+                                        .font(.caption)
+                                        .foregroundStyle(.secondary)
+                                }
+                            }
+                        }
+                    }
+                }
             }
             .formStyle(.grouped)
         }
@@ -473,23 +489,33 @@ struct PapaSettingsView: View {
 
     var body: some View {
         HStack(spacing: 0) {
+            let duo = store.settings.maaJoins && AvatarImageStore.bundledMaa() != nil
+            let blockWidth = NotchController.blockWidth(forNotch: 0, duo: duo)
             VStack(spacing: 14) {
-                // Mock of the notch block so you see exactly how he will peek out.
+                // Mock of the notch block so you see exactly how he (and she) will peek out.
                 ZStack(alignment: .bottom) {
                     NotchShape(flare: NotchController.flare, bottomRadius: 26)
                         .fill(.black)
-                        .frame(width: 210 + NotchController.flare * 2, height: 32 + NotchController.blockBodyHeight)
-                    PeekingPapaView(config: store.settings.avatar,
-                                    expression: previewExpression,
-                                    image: images.effectiveImage(for: previewExpression, allowCustom: license.isPro),
-                                    width: 210 - 16,
-                                    height: NotchController.blockBodyHeight - 4)
-                        .padding(.bottom, 2)
+                        .frame(width: blockWidth + NotchController.flare * 2, height: 32 + NotchController.blockBodyHeight)
+                    HStack(alignment: .bottom, spacing: 0) {
+                        PeekingPapaView(config: store.settings.avatar,
+                                        expression: previewExpression,
+                                        image: images.effectiveImage(for: previewExpression, allowCustom: license.isPro),
+                                        width: duo ? (blockWidth - 16) / 2 : blockWidth - 16,
+                                        height: NotchController.blockBodyHeight - 4)
+                        if duo, let maa = AvatarImageStore.bundledMaa() {
+                            PeekingPapaView(config: AvatarConfig(), image: maa,
+                                            width: (blockWidth - 16) / 2,
+                                            height: NotchController.blockBodyHeight - 4)
+                        }
+                    }
+                    .padding(.bottom, 2)
                 }
                 .shadow(color: .black.opacity(0.25), radius: 12, y: 6)
                 .padding(.top, 8)
+                .animation(.easeInOut(duration: 0.25), value: duo)
 
-                Text(store.settings.resolvedPapaName)
+                Text(duo ? "\(store.settings.resolvedMaaName) & \(store.settings.resolvedPapaName)" : store.settings.resolvedPapaName)
                     .font(.title2.weight(.semibold))
                 Picker("", selection: $previewExpression) {
                     ForEach(Expression.allCases, id: \.self) { Text($0.rawValue.capitalized).tag($0) }
@@ -497,10 +523,10 @@ struct PapaSettingsView: View {
                 .pickerStyle(.segmented)
                 .labelsHidden()
                 .frame(width: 270)
-                Button("Show him in the notch") { engine.nudgeNow() }
+                Button(duo ? "Show them in the notch" : "Show him in the notch") { engine.nudgeNow() }
                 Spacer()
             }
-            .frame(width: 310)
+            .frame(width: 360)
             .padding()
             .background(Color(nsColor: .windowBackgroundColor))
 
@@ -514,6 +540,28 @@ struct PapaSettingsView: View {
                             .frame(width: 180)
                     }
                     Text("Papa, Appa, Baba, Bapu, Daddy, Abba… whatever it is at home.")
+                        .font(.footnote).foregroundStyle(.secondary)
+                }
+
+                Section {
+                    Toggle("Maa joins in", isOn: $store.settings.maaJoins)
+                    HStack {
+                        Text("You call her")
+                        Spacer()
+                        TextField(store.settings.language.defaultMaaName, text: $store.settings.maaName)
+                            .textFieldStyle(.roundedBorder)
+                            .frame(width: 180)
+                    }
+                    .disabled(!store.settings.maaJoins)
+                    HStack {
+                        Spacer()
+                        Button("Show them together") { engine.nudgeNow() }
+                            .disabled(!store.settings.maaJoins)
+                    }
+                } header: {
+                    Text("Maa & Papa")
+                } footer: {
+                    Text("The Maaa crossover. She peeks out beside him and the two of them speak with one voice: one wholesome line per nudge, whatever the tone, and no chappal with her in the room. Their lines are in English, Hinglish and Hindi for now; other languages borrow English.")
                         .font(.footnote).foregroundStyle(.secondary)
                 }
 
@@ -616,7 +664,7 @@ struct AboutView: View {
             Divider().frame(width: 240)
             VStack(spacing: 4) {
                 Text("Everything stays on this Mac. No account, no analytics, no microphone.")
-                Text("Inspired by Maaa. Same love, different parent.")
+                Text("Inspired by Maaa. Same love, different parent. Turn on Maa & Papa and she drops in too.")
             }
             .font(.footnote)
             .foregroundStyle(.secondary)

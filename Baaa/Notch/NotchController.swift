@@ -14,6 +14,9 @@ final class NotchViewModel: ObservableObject {
     @Published var image: NSImage?
     @Published var moodImage: NSImage?
     @Published var moodRevealed = false
+    /// Maa & Papa mode: her picture, shown beside his in a wider block.
+    @Published var maaImage: NSImage?
+    @Published var duo = false
     @Published var doneLabel = "OK"
     @Published var snoozeLabel = "10 min"
     /// Bumped once per throw; the view runs its flight keyframes off it.
@@ -54,8 +57,11 @@ final class NotchController {
     static let shadowPad: CGFloat = 30
     static let panelBodyHeight: CGFloat = 230
 
-    static func blockWidth(forNotch notchWidth: CGFloat) -> CGFloat {
-        max(blockMinWidth, notchWidth + 36)
+    /// Extra block width when Maa peeks out beside him.
+    static let duoExtraWidth: CGFloat = 120
+
+    static func blockWidth(forNotch notchWidth: CGFloat, duo: Bool = false) -> CGFloat {
+        max(blockMinWidth, notchWidth + 36) + (duo ? duoExtraWidth : 0)
     }
 
     let model = NotchViewModel()
@@ -113,6 +119,9 @@ final class NotchController {
         model.image = store.effectiveImage(for: .neutral, allowCustom: pro)
         model.moodImage = store.effectiveImage(for: nudge.expression, allowCustom: pro)
         model.moodRevealed = false
+        let maa = nudge.coSpeaker == nil ? nil : AvatarImageStore.bundledMaa()
+        model.maaImage = maa
+        model.duo = maa != nil
         moodWork?.cancel()
         let reveal = DispatchWorkItem { [weak self] in
             withAnimation(.easeInOut(duration: 0.45)) { self?.model.moodRevealed = true }
@@ -123,14 +132,14 @@ final class NotchController {
         model.notchWidth = geo.notchWidth
         model.notchHeight = geo.notchHeight
         let pack = MessageLibrary.pack(settings.language)
-        model.doneLabel = pack.done
+        model.doneLabel = nudge.coSpeaker == nil ? pack.done : pack.doneTogether
         model.snoozeLabel = pack.snooze
         model.nudge = nudge
         cancelChappal()
         if nudge.chappal { scheduleChappal(sound: settings.soundEnabled) }
 
         let panel = ensurePanel()
-        panel.setFrame(frame(for: geo, tall: nudge.chappal), display: false)
+        panel.setFrame(frame(for: geo, tall: nudge.chappal, duo: model.duo), display: false)
 
         hideTimer?.invalidate()
         isVisible = true
@@ -263,8 +272,8 @@ final class NotchController {
 
     /// `tall` gives the chappal room to fly down the screen and out to the sides; the
     /// extra area is transparent and click-through like the rest of the panel.
-    private func frame(for geo: NotchGeometry, tall: Bool = false) -> CGRect {
-        let blockWidth = Self.blockWidth(forNotch: geo.notchWidth)
+    private func frame(for geo: NotchGeometry, tall: Bool = false, duo: Bool = false) -> CGRect {
+        let blockWidth = Self.blockWidth(forNotch: geo.notchWidth, duo: duo)
         let pad = tall ? NotchView.throwSidePad : 0
         let width = pad * 2 + Self.flare * 2 + blockWidth + Self.bubbleGap + Self.bubbleWidth + Self.shadowPad
         let x = geo.notchRect.midX - Self.flare - blockWidth / 2 - pad
