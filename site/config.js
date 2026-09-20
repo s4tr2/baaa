@@ -15,7 +15,7 @@ window.BAAA = {
 
   PRICE: "$1.99",
   MAX_DEVICES: 2,
-  VERSION: "0.2.0",
+  VERSION: "0.4.0",
   MIN_MACOS: "macOS 14 Sonoma",
   SUPPORT_EMAIL: "hello@baaa.app",
 
