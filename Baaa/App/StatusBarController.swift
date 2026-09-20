@@ -46,6 +46,11 @@ final class StatusBarController: NSObject, NSMenuDelegate {
             mi.image = NSImage(systemSymbolName: kind.symbol, accessibilityDescription: nil)
             sub.addItem(mi)
         }
+        sub.addItem(.separator())
+        let chappal = makeItem("Chappal Treatment", #selector(chappalTreatment))
+        chappal.image = NSImage(systemSymbolName: "shoe.fill", accessibilityDescription: nil)
+            ?? NSImage(systemSymbolName: "flame.fill", accessibilityDescription: nil)
+        sub.addItem(chappal)
         pick.submenu = sub
         menu.addItem(pick)
         menu.addItem(.separator())
@@ -88,6 +93,7 @@ final class StatusBarController: NSObject, NSMenuDelegate {
             engine.nudgeNow(kind: kind)
         }
     }
+    @objc private func chappalTreatment() { engine.previewChappalTreatment() }
     @objc private func resume() { engine.resume() }
     @objc private func pause1h() { engine.pause(for: 3600) }
     @objc private func pause3h() { engine.pause(for: 3 * 3600) }
