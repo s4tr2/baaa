@@ -34,6 +34,10 @@ you have eaten, drunk water, called home, or gone to bed.
 - **Languages and tones.** English, Hinglish, Hindi, Tamil and Punjabi have three
   voices each (Strict Papa, Soft Papa, Filmy Papa). Marathi, Gujarati, Bengali,
   Malayalam, Telugu and Kannada ship with one voice for now.
+- **Chappal Treatment.** Strict Papa only: let two nudges from the same reminder time
+  out untouched and the next one comes with a chappal flung out of the notch straight
+  at you, tumbling as it comes, and a red-faced Papa. Done resets his patience,
+  snoozing is allowed, and it can be switched off under Settings, Tone.
 - **Respectful pacing.** Quiet hours (default 22:00 to 08:00, bedtime and morning
   are allowed through), a daily cap, nothing while you're idle, snooze, and pause
   from the menu bar.

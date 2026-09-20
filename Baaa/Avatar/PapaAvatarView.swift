@@ -50,7 +50,10 @@ struct PeekingPapaView: View {
                 ZStack {
                     picture(image)
                     if let moodImage, moodImage !== image {
-                        picture(moodImage).opacity(moodOpacity)
+                        picture(moodImage)
+                            // No separate angry render yet: the stern face flushes red instead.
+                            .colorMultiply(expression == .angry ? Color(red: 1.0, green: 0.80, blue: 0.76) : .white)
+                            .opacity(moodOpacity)
                     }
                 }
             } else {
@@ -172,6 +175,7 @@ struct PapaHeadView: View {
     private var leftBrowAngle: Double {
         switch expression {
         case .stern: return 14
+        case .angry: return 20
         case .worried: return -12
         case .happy, .proud: return -4
         case .neutral: return 2
@@ -181,6 +185,7 @@ struct PapaHeadView: View {
     private var browY: CGFloat {
         switch expression {
         case .stern: return -8
+        case .angry: return -6
         case .worried: return -12
         case .happy, .proud: return -11
         case .neutral: return -10
@@ -446,6 +451,9 @@ private struct MouthShape: Shape {
         case .stern:
             p.move(to: CGPoint(x: 44.5, y: 69))
             p.addQuadCurve(to: CGPoint(x: 55.5, y: 69), control: CGPoint(x: 50, y: 65.5))
+        case .angry:
+            // Open shout: a small oval.
+            p.addEllipse(in: CGRect(x: 45.5, y: 66, width: 9, height: 6.5))
         case .worried:
             p.move(to: CGPoint(x: 45.5, y: 68.5))
             p.addQuadCurve(to: CGPoint(x: 54.5, y: 68.5), control: CGPoint(x: 50, y: 66.5))

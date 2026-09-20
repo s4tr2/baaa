@@ -41,8 +41,13 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     /// baaa://activate?key=XXXX  — sent by the thanks page right after checkout.
+    /// baaa://chappal-treatment  — plays the Chappal Treatment, for demos (`open -a Baaapp baaa://chappal-treatment`).
     func application(_ application: NSApplication, open urls: [URL]) {
         for url in urls where url.scheme == "baaa" {
+            if url.host == "chappal-treatment" {
+                engine.previewChappalTreatment()
+                continue
+            }
             guard url.host == "activate",
                   let key = URLComponents(url: url, resolvingAgainstBaseURL: false)?
                     .queryItems?.first(where: { $0.name == "key" })?.value,

@@ -16,19 +16,106 @@ struct NotchView: View {
     private var bubbleSpacing: CGFloat { model.hasNotch ? NotchController.bubbleGap - flare : NotchController.bubbleGap }
 
     var body: some View {
-        HStack(alignment: .top, spacing: bubbleSpacing) {
-            block
-                .frame(width: blockWidth + flare * 2, alignment: .center)
-            bubble
-                .padding(.top, model.hasNotch ? model.notchHeight + 8 : 10)
+        // Each bump of `chappalThrows` flings the chappal once: it slides out from behind
+        // the block, then flies straight at you, tumbling, growing and blurring, and is gone.
+        // Launch is at 0.18s, impact at 0.55s; NotchController's sound matches.
+        KeyframeAnimator(initialValue: ThrowPose(), trigger: model.chappalThrows) { pose in
+            HStack(alignment: .top, spacing: bubbleSpacing) {
+                block(pose)
+                    .frame(width: blockWidth + flare * 2, alignment: .center)
+                bubble(pose)
+                    .padding(.top, model.hasNotch ? model.notchHeight + 8 : 10)
+            }
+            .padding(.leading, sidePad)
+            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
+            .overlay(alignment: .topLeading) { thrownChappal(pose) }
+            .onHover { model.hovering = $0 }
+        } keyframes: { _ in
+            KeyframeTrack(\.fly) {
+                CubicKeyframe(0.10, duration: 0.18)   // edges out of the notch
+                CubicKeyframe(1.0, duration: 0.37)    // then straight at you
+                LinearKeyframe(1.0, duration: 0.35)
+            }
+            KeyframeTrack(\.opacity) {
+                LinearKeyframe(1, duration: 0.02)
+                LinearKeyframe(1, duration: 0.44)
+                LinearKeyframe(0, duration: 0.14)     // oblivion
+                LinearKeyframe(0, duration: 0.30)
+            }
+            // Tumbling end over end (about the x axis) while spinning flat (about z).
+            KeyframeTrack(\.tumble) {
+                CubicKeyframe(20, duration: 0.18)
+                LinearKeyframe(560, duration: 0.37)
+                LinearKeyframe(560, duration: 0.35)
+            }
+            KeyframeTrack(\.spin) {
+                CubicKeyframe(-12, duration: 0.18)
+                CubicKeyframe(310, duration: 0.37)
+                LinearKeyframe(310, duration: 0.35)
+            }
+            // A slight arc to one side, the way a thrown chappal curls.
+            KeyframeTrack(\.sway) {
+                CubicKeyframe(0, duration: 0.18)
+                CubicKeyframe(-46, duration: 0.20)
+                CubicKeyframe(-30, duration: 0.17)
+                LinearKeyframe(-30, duration: 0.35)
+            }
+            // Papa leans into the throw as it leaves, then settles.
+            KeyframeTrack(\.lunge) {
+                LinearKeyframe(0, duration: 0.08)
+                CubicKeyframe(1, duration: 0.12)
+                SpringKeyframe(0, duration: 0.7, spring: Spring(response: 0.35, dampingRatio: 0.5))
+            }
+            KeyframeTrack(\.shake) {
+                LinearKeyframe(0, duration: 0.18)
+                LinearKeyframe(-6, duration: 0.04)    // recoil as it leaves
+                SpringKeyframe(0, duration: 0.68, spring: Spring(response: 0.2, dampingRatio: 0.3))
+            }
+            KeyframeTrack(\.flash) {
+                LinearKeyframe(0, duration: 0.52)
+                LinearKeyframe(1, duration: 0.03)
+                LinearKeyframe(0, duration: 0.35)
+            }
         }
-        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
-        .onHover { model.hovering = $0 }
+    }
+
+    // MARK: - The throw
+
+    /// How far down the chappal travels before it is gone. The panel is made tall
+    /// enough for this when a chappal nudge is shown (see NotchController.frame).
+    static let throwTravel: CGFloat = 330
+    /// Extra panel width either side for a chappal nudge, so the enlarged, tumbling
+    /// chappal is not cut off at the panel edge. The block keeps its place on screen.
+    static let throwSidePad: CGFloat = 260
+    private var sidePad: CGFloat { model.nudge?.chappal == true ? Self.throwSidePad : 0 }
+
+    /// Drawn above everything, in a strip that starts at the block's bottom edge and
+    /// is clipped there, so the chappal appears from behind the block rather than over it.
+    private func thrownChappal(_ pose: ThrowPose) -> some View {
+        let topHeight = model.hasNotch ? model.notchHeight : 0
+        let blockSpan = blockWidth + flare * 2
+        let stripWidth = sidePad * 2 + blockSpan + NotchController.bubbleGap + bubbleWidth + NotchController.shadowPad
+        let stripHeight = Self.throwTravel + 120
+        return ZStack(alignment: .top) {
+            Color.clear
+            ChappalView()
+                .rotation3DEffect(.degrees(pose.tumble), axis: (x: 1, y: 0.15, z: 0), perspective: 0.55)
+                .rotationEffect(.degrees(pose.spin))
+                .scaleEffect(1 + pose.fly * 4.2)
+                .blur(radius: pose.fly * pose.fly * 6)
+                .opacity(pose.opacity)
+                .offset(x: sidePad + blockSpan / 2 - stripWidth / 2 + pose.sway,
+                        y: -ChappalView.size.height + pose.fly * (Self.throwTravel + ChappalView.size.height))
+        }
+        .frame(width: stripWidth, height: stripHeight)
+        .clipped()
+        .offset(y: topHeight + bodyHeight)
+        .allowsHitTesting(false)
     }
 
     // MARK: - Block with Papa
 
-    private var block: some View {
+    private func block(_ pose: ThrowPose) -> some View {
         let expanded = model.expanded
         let topHeight = model.hasNotch ? model.notchHeight : 0
         let width: CGFloat = model.hasNotch ? (expanded ? blockWidth : model.notchWidth) : (expanded ? blockWidth : 60)
@@ -45,9 +132,11 @@ struct NotchView: View {
                             width: blockWidth - 16,
                             height: bodyHeight - 4)
                 .modifier(IdleSway())
+                .scaleEffect(1 + pose.lunge * 0.08, anchor: .bottom)
+                .rotationEffect(.degrees(pose.lunge * 6), anchor: .bottom)
                 .padding(.bottom, 2)
                 // Comes down out of the notch, retracts back up into it.
-                .offset(y: expanded ? 0 : -(bodyHeight + 10))
+                .offset(x: pose.shake, y: expanded ? 0 : -(bodyHeight + 10))
                 .opacity(expanded ? 1 : 0.6)
         }
         .frame(width: width + shapeFlare * 2, height: height, alignment: .bottom)
@@ -63,7 +152,7 @@ struct NotchView: View {
 
     // MARK: - Speech bubble
 
-    private var bubble: some View {
+    private func bubble(_ pose: ThrowPose) -> some View {
         VStack(alignment: .leading, spacing: 5) {
             Text(model.nudge?.speaker ?? "Papa")
                 .font(.system(size: 11, weight: .bold))
@@ -97,6 +186,12 @@ struct NotchView: View {
                 .fill(.white)
                 .shadow(color: .black.opacity(0.22), radius: 18, y: 8)
         )
+        .overlay(
+            BubbleShape(cornerRadius: 22, tailY: 50)
+                .stroke(Color(red: 0.9, green: 0.15, blue: 0.1), lineWidth: 3)
+                .opacity(pose.flash)
+        )
+        .offset(x: pose.shake * 0.5)
         .animation(.spring(response: 0.3, dampingFraction: 0.85), value: model.hovering)
         .scaleEffect(model.expanded ? 1 : 0.3, anchor: .init(x: 0, y: 0.15))
         .opacity(model.expanded ? 1 : 0)

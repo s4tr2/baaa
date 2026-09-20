@@ -12,9 +12,11 @@ struct Nudge: Identifiable, Equatable {
     let subtitle: String?
     let expression: Expression
     let symbol: String
+    /// The Chappal Treatment: Strict Papa has been ignored twice and the chappal flies out of the notch.
+    let chappal: Bool
 
     init(sourceKey: String, kind: ReminderKind?, speaker: String, message: String,
-         subtitle: String? = nil, expression: Expression, symbol: String) {
+         subtitle: String? = nil, expression: Expression, symbol: String, chappal: Bool = false) {
         self.sourceKey = sourceKey
         self.kind = kind
         self.speaker = speaker
@@ -22,6 +24,15 @@ struct Nudge: Identifiable, Equatable {
         self.subtitle = subtitle
         self.expression = expression
         self.symbol = symbol
+        self.chappal = chappal
+    }
+
+    /// The same nudge, escalated: angry face, chappal out, and the chappal line on top
+    /// with the original instruction underneath so you still know what he wants.
+    func escalated(with line: Line, settings: AppSettings) -> Nudge {
+        Nudge(sourceKey: sourceKey, kind: kind, speaker: speaker,
+              message: line.text.substituting(settings: settings),
+              subtitle: message, expression: .angry, symbol: symbol, chappal: true)
     }
 
     static func welcome(settings: AppSettings) -> Nudge {

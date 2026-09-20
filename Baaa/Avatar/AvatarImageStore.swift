@@ -27,8 +27,11 @@ final class AvatarImageStore: ObservableObject {
     }
 
     /// Bundled render for this mood, falling back to the neutral face.
+    /// There is no angry render yet; the stern one stands in (the notch adds the flush).
     static func bundledDefault(for expression: Expression) -> NSImage? {
-        bundled(for: expression) ?? bundled(for: .neutral)
+        if let exact = bundled(for: expression) { return exact }
+        if expression == .angry, let stern = bundled(for: .stern) { return stern }
+        return bundled(for: .neutral)
     }
 
     private init() {

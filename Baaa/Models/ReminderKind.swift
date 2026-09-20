@@ -1,7 +1,7 @@
 import Foundation
 
 enum Expression: String, Codable, CaseIterable {
-    case neutral, stern, happy, worried, proud
+    case neutral, stern, happy, worried, proud, angry
 }
 
 enum ReminderKind: String, CaseIterable, Codable, Identifiable {

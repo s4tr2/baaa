@@ -17,6 +17,10 @@ final class ReminderEngine: ObservableObject {
     private var dayKey = ""
     private var lastMessage: [String: String] = [:]
     private var snoozed: (nudge: Nudge, until: Date)?
+    /// Consecutive nudges per reminder that timed out untouched. Two in a row and
+    /// Strict Papa gives the Chappal Treatment. Done clears it; snooze is allowed.
+    private var ignored: [String: Int] = [:]
+    private let chappalAfterIgnores = 2
 
     private let tickInterval: TimeInterval = 20
     private let slotWindowMinutes = 20
@@ -27,6 +31,7 @@ final class ReminderEngine: ObservableObject {
         self.notch = notch
         notch.onSnooze = { [weak self] nudge in self?.snooze(nudge, minutes: 10) }
         notch.onDone = { [weak self] nudge in self?.markDone(nudge) }
+        notch.onIgnored = { [weak self] nudge in self?.markIgnored(nudge) }
     }
 
     var isPaused: Bool {
@@ -100,6 +105,20 @@ final class ReminderEngine: ObservableObject {
 
     func markDone(_ nudge: Nudge) {
         if snoozed?.nudge.sourceKey == nudge.sourceKey { snoozed = nil }
+        ignored[nudge.sourceKey] = 0
+    }
+
+    func markIgnored(_ nudge: Nudge) {
+        guard nudge.kind != nil, nudge.sourceKey != "preview" else { return }
+        // After the chappal has come out once, start counting again from zero.
+        ignored[nudge.sourceKey] = nudge.chappal ? 0 : (ignored[nudge.sourceKey] ?? 0) + 1
+    }
+
+    /// Settings preview: the full Chappal Treatment on a meal reminder, regardless of counts.
+    func previewChappalTreatment() {
+        let settings = store.settings
+        let base = makeNudge(for: settings.reminder(.meal), settings: settings, tone: .strict)
+        notch.show(base.escalated(with: MessageLibrary.pack(settings.language).chappal, settings: settings))
     }
 
     // MARK: - Tick
@@ -217,18 +236,23 @@ final class ReminderEngine: ObservableObject {
 
     // MARK: - Message assembly
 
-    private func makeNudge(for config: ReminderConfig, settings: AppSettings) -> Nudge {
+    private func makeNudge(for config: ReminderConfig, settings: AppSettings, tone forced: Tone? = nil) -> Nudge {
         let pro = LicenseManager.shared.isPro
-        let tone = pro || !settings.tone.isPro ? settings.tone : .soft
+        let tone = forced ?? (pro || !settings.tone.isPro ? settings.tone : .soft)
         var pool = pro ? config.customMessages.compactMap(Line.parseCustom) : []
         if !config.useOnlyCustom || pool.isEmpty {
             pool += MessageLibrary.messages(for: config.kind, language: settings.language, tone: tone)
         }
         let line = pick(from: pool, avoiding: lastMessage[config.kind.rawValue])
-        return Nudge(sourceKey: config.kind.rawValue, kind: config.kind, speaker: settings.resolvedPapaName,
-                     message: line.text.substituting(settings: settings),
-                     subtitle: line.english?.substituting(settings: settings),
-                     expression: config.kind.expression(for: tone), symbol: config.kind.symbol)
+        let nudge = Nudge(sourceKey: config.kind.rawValue, kind: config.kind, speaker: settings.resolvedPapaName,
+                          message: line.text.substituting(settings: settings),
+                          subtitle: line.english?.substituting(settings: settings),
+                          expression: config.kind.expression(for: tone), symbol: config.kind.symbol)
+        if forced == nil, tone == .strict, settings.chappalTreatment,
+           (ignored[config.kind.rawValue] ?? 0) >= chappalAfterIgnores {
+            return nudge.escalated(with: MessageLibrary.pack(settings.language).chappal, settings: settings)
+        }
+        return nudge
     }
 
     private func makeNudge(for custom: CustomReminder, settings: AppSettings) -> Nudge {

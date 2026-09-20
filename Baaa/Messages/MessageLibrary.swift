@@ -20,6 +20,8 @@ struct LanguagePack {
     var welcome: Line
     var done: String
     var snooze: String
+    /// What he says when Strict Papa has been ignored twice and the chappal flies.
+    var chappal: Line
     var messages: [ReminderKind: [Tone: [Line]]]
 }
 
@@ -45,6 +47,7 @@ enum MessageLibrary {
             welcome: "Hello {name}. I'm {papa}. From now on I will keep an eye on you. Eat on time.",
             done: "OK Dad",
             snooze: "10 min",
+            chappal: Line("Twice I told you. Now the chappal will do the talking."),
             messages: [
                 .meal: [
                     .strict: ["Have you eaten? Don't tell me 'later'. Go eat now.",
@@ -116,6 +119,7 @@ enum MessageLibrary {
                           "Hello {name}. I'm {papa}. From now on I'll keep an eye on you. Eat on time."),
             done: "Theek hai Papa",
             snooze: "10 min baad",
+            chappal: Line("Do baar bola. Ab chappal udegi.", "I told you twice. Now the chappal flies."),
             messages: [
                 .meal: [
                     .strict: [Line("Khaana khaya? 'Baad mein' nahi. Abhi jao.", "Have you eaten? Not 'later'. Go now."),
@@ -208,6 +212,7 @@ enum MessageLibrary {
                           "Hello {name}. I'm {papa}. From now on I'll keep an eye on you. Eat on time."),
             done: "ठीक है पापा",
             snooze: "10 मिनट बाद",
+            chappal: Line("दो बार कहा। अब चप्पल उड़ेगी।", "I told you twice. Now the chappal flies."),
             messages: [
                 .meal: [
                     .strict: [Line("खाना खाया? 'बाद में' नहीं। अभी जाओ।", "Have you eaten? Not 'later'. Go now."),
@@ -300,6 +305,7 @@ enum MessageLibrary {
                           "Hello {name}. I'm {papa}. From now on I'll keep an eye on you. Eat on time."),
             done: "சரி அப்பா",
             snooze: "10 நிமிஷம்",
+            chappal: Line("ரெண்டு தடவை சொன்னேன். இப்போ செருப்பு பறக்கும்.", "I told you twice. Now the chappal flies."),
             messages: [
                 .meal: [
                     .strict: [Line("சாப்டியா? 'அப்புறம்' எல்லாம் வேண்டாம். இப்போ போய் சாப்பிடு.", "Have you eaten? No 'later'. Go eat now."),
@@ -389,6 +395,7 @@ enum MessageLibrary {
                           "Hello {name}. I'm {papa}. From now on I'll keep an eye on you. Eat on time."),
             done: "ਠੀਕ ਹੈ ਪਾਪਾ",
             snooze: "10 ਮਿੰਟ",
+            chappal: Line("ਦੋ ਵਾਰੀ ਕਿਹਾ। ਹੁਣ ਚੱਪਲ ਉੱਡੇਗੀ।", "I told you twice. Now the chappal flies."),
             messages: [
                 .meal: [
                     .strict: [Line("ਰੋਟੀ ਖਾ ਲਈ? 'ਬਾਅਦ ਵਿੱਚ' ਨਹੀਂ। ਹੁਣੇ ਜਾ।", "Have you eaten? Not 'later'. Go now."),
@@ -477,6 +484,7 @@ enum MessageLibrary {
             welcome: Line("नमस्कार {name}. मी {papa}. आतापासून मी लक्ष ठेवीन. वेळेवर जेव.", "Hello {name}. I'm {papa}. From now on I'll keep an eye on you. Eat on time."),
             done: "बरं बाबा",
             snooze: "10 मिनिटांनी",
+            chappal: Line("दोनदा सांगितलं. आता चप्पल उडेल.", "I told you twice. Now the chappal flies."),
             messages: [
                 .meal: [.soft: [Line("जेवलास का {name}? थोडा ब्रेक घे आणि जेव.", "Have you eaten, {name}? Take a break and eat."),
                                 Line("आधी जेवण, मग लॅपटॉप. घरचा नियम आहे.", "Food first, laptop later. House rule."),
@@ -507,6 +515,7 @@ enum MessageLibrary {
             welcome: Line("નમસ્તે {name}. હું {papa}. હવેથી હું ધ્યાન રાખીશ. સમયસર જમી લે.", "Hello {name}. I'm {papa}. From now on I'll keep an eye on you. Eat on time."),
             done: "સારું પપ્પા",
             snooze: "10 મિનિટ પછી",
+            chappal: Line("બે વાર કહ્યું. હવે ચંપલ ઉડશે.", "I told you twice. Now the chappal flies."),
             messages: [
                 .meal: [.soft: [Line("જમ્યો {name}? થોડો બ્રેક લઈને જમી લે.", "Have you eaten, {name}? Take a break and eat."),
                                 Line("પહેલા જમવાનું, પછી લેપટોપ. ઘરનો નિયમ છે.", "Food first, laptop later. House rule."),
@@ -537,6 +546,7 @@ enum MessageLibrary {
             welcome: Line("নমস্কার {name}। আমি {papa}। এখন থেকে আমি খেয়াল রাখব। সময়মতো খেয়ে নিস।", "Hello {name}. I'm {papa}. From now on I'll keep an eye on you. Eat on time."),
             done: "আচ্ছা বাবা",
             snooze: "১০ মিনিট পরে",
+            chappal: Line("দুবার বলেছি। এবার চটি উড়বে।", "I told you twice. Now the chappal flies."),
             messages: [
                 .meal: [.soft: [Line("খেয়েছিস {name}? একটু বিরতি নিয়ে খেয়ে নে।", "Have you eaten, {name}? Take a break and eat."),
                                 Line("আগে খাওয়া, তারপর ল্যাপটপ। বাড়ির নিয়ম।", "Food first, laptop later. House rule."),
@@ -567,6 +577,7 @@ enum MessageLibrary {
             welcome: Line("നമസ്കാരം {name}. ഞാൻ {papa}. ഇനി ഞാൻ നോക്കിക്കോളാം. സമയത്ത് ഭക്ഷണം കഴിക്കണം.", "Hello {name}. I'm {papa}. From now on I'll keep an eye on you. Eat on time."),
             done: "ശരി അച്ഛാ",
             snooze: "10 മിനിറ്റ്",
+            chappal: Line("രണ്ടു തവണ പറഞ്ഞു. ഇനി ചെരിപ്പ് പറക്കും.", "I told you twice. Now the chappal flies."),
             messages: [
                 .meal: [.soft: [Line("ഭക്ഷണം കഴിച്ചോ {name}? ഒരു ബ്രേക്ക് എടുത്ത് കഴിക്ക്.", "Have you eaten, {name}? Take a break and eat."),
                                 Line("ആദ്യം ഭക്ഷണം, പിന്നെ ലാപ്ടോപ്. വീട്ടിലെ നിയമമാണ്.", "Food first, laptop later. House rule."),
@@ -597,6 +608,7 @@ enum MessageLibrary {
             welcome: Line("నమస్తే {name}. నేను {papa}. ఇక నుంచి నేను చూసుకుంటాను. సమయానికి తిను.", "Hello {name}. I'm {papa}. From now on I'll keep an eye on you. Eat on time."),
             done: "సరే నాన్న",
             snooze: "10 నిమిషాలు",
+            chappal: Line("రెండు సార్లు చెప్పాను. ఇప్పుడు చెప్పు ఎగురుతుంది.", "I told you twice. Now the chappal flies."),
             messages: [
                 .meal: [.soft: [Line("అన్నం తిన్నావా {name}? కొంచెం బ్రేక్ తీసుకుని తిను.", "Have you eaten, {name}? Take a break and eat."),
                                 Line("ముందు భోజనం, తర్వాత ల్యాప్‌టాప్. ఇంటి రూల్.", "Food first, laptop later. House rule."),
@@ -627,6 +639,7 @@ enum MessageLibrary {
             welcome: Line("ನಮಸ್ಕಾರ {name}. ನಾನು {papa}. ಇನ್ನು ಮುಂದೆ ನಾನು ನೋಡಿಕೊಳ್ಳುತ್ತೇನೆ. ಸಮಯಕ್ಕೆ ಊಟ ಮಾಡು.", "Hello {name}. I'm {papa}. From now on I'll keep an eye on you. Eat on time."),
             done: "ಸರಿ ಅಪ್ಪ",
             snooze: "10 ನಿಮಿಷ",
+            chappal: Line("ಎರಡು ಸಲ ಹೇಳಿದೆ. ಈಗ ಚಪ್ಪಲಿ ಹಾರುತ್ತೆ.", "I told you twice. Now the chappal flies."),
             messages: [
                 .meal: [.soft: [Line("ಊಟ ಆಯ್ತಾ {name}? ಸ್ವಲ್ಪ ಬ್ರೇಕ್ ತೆಗೆದು ಊಟ ಮಾಡು.", "Have you eaten, {name}? Take a break and eat."),
                                 Line("ಮೊದಲು ಊಟ, ಆಮೇಲೆ ಲ್ಯಾಪ್‌ಟಾಪ್. ಮನೆ ನಿಯಮ.", "Food first, laptop later. House rule."),

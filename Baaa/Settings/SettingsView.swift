@@ -55,6 +55,17 @@ struct GeneralSettingsView: View {
                     ProUpsell(feature: .tones)
                     Text("Until then he speaks as Soft Papa.").font(.caption).foregroundStyle(.secondary)
                 }
+                if store.settings.tone == .strict && license.isPro {
+                    Toggle("Chappal Treatment", isOn: $store.settings.chappalTreatment)
+                    HStack {
+                        Text("Ignore him twice and the chappal flies out of the notch. Cartoon chappal, two throws, nobody gets hurt. Done resets his patience; snoozing is allowed.")
+                            .font(.footnote)
+                            .foregroundStyle(.secondary)
+                        Spacer()
+                        Button("Show me") { engine.previewChappalTreatment() }
+                            .disabled(!store.settings.chappalTreatment)
+                    }
+                }
                 HStack {
                     Text("What he calls you")
                     Spacer()

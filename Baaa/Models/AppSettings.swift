@@ -63,6 +63,8 @@ struct AppSettings: Codable {
     var dailyLimit: Int = 12
     var displaySeconds: Double = 9
     var soundEnabled: Bool = true
+    /// The Chappal Treatment. Strict Papa only: ignore him twice in a row and the chappal flies out of the notch.
+    var chappalTreatment: Bool = true
     var placement: NotchPlacement = .auto
     var reminders: [ReminderConfig] = ReminderKind.allCases.map(ReminderConfig.default(for:))
     var customReminders: [CustomReminder] = []
@@ -86,7 +88,7 @@ struct AppSettings: Codable {
     // Tolerant decoding so settings survive new fields between versions.
     enum CodingKeys: String, CodingKey {
         case language, tone, papaName, childName, quietHours, dailyLimit, displaySeconds, soundEnabled,
-             placement, reminders, customReminders, avatar, hasOnboarded
+             chappalTreatment, placement, reminders, customReminders, avatar, hasOnboarded
     }
 
     init(from decoder: Decoder) throws {
@@ -100,6 +102,7 @@ struct AppSettings: Codable {
         dailyLimit = try c.decodeIfPresent(Int.self, forKey: .dailyLimit) ?? d.dailyLimit
         displaySeconds = try c.decodeIfPresent(Double.self, forKey: .displaySeconds) ?? d.displaySeconds
         soundEnabled = try c.decodeIfPresent(Bool.self, forKey: .soundEnabled) ?? d.soundEnabled
+        chappalTreatment = try c.decodeIfPresent(Bool.self, forKey: .chappalTreatment) ?? d.chappalTreatment
         placement = try c.decodeIfPresent(NotchPlacement.self, forKey: .placement) ?? d.placement
         var decodedReminders = try c.decodeIfPresent([ReminderConfig].self, forKey: .reminders) ?? []
         for kind in ReminderKind.allCases where !decodedReminders.contains(where: { $0.kind == kind }) {
