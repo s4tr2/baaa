@@ -4,6 +4,8 @@
   const redirect = new URL("thanks.html", location.href).href;
   const checkoutURL = checkoutBase + C.DODO_PRODUCT_ID + "?quantity=1&redirect_url=" + encodeURIComponent(redirect);
   const configured = C.DODO_PRODUCT_ID && !/REPLACE_ME/.test(C.DODO_PRODUCT_ID);
+  // GA4 events (no-op if the tag was blocked or didn't load).
+  const track = (name, params) => { if (typeof window.gtag === "function") window.gtag("event", name, params || {}); };
 
   // Fill config-driven bits.
   document.querySelectorAll("[data-price]").forEach(el => el.textContent = C.PRICE);
@@ -11,7 +13,10 @@
   document.querySelectorAll("[data-version]").forEach(el => el.textContent = "v" + C.VERSION);
   document.querySelectorAll("[data-min-macos]").forEach(el => el.textContent = C.MIN_MACOS);
   document.querySelectorAll("[data-support]").forEach(el => { el.textContent = C.SUPPORT_EMAIL; el.href = "mailto:" + C.SUPPORT_EMAIL; });
-  document.querySelectorAll("[data-download]").forEach(el => { el.href = C.DOWNLOAD_URL; el.setAttribute("download", ""); });
+  document.querySelectorAll("[data-download]").forEach(el => {
+    el.href = C.DOWNLOAD_URL; el.setAttribute("download", "");
+    el.addEventListener("click", () => track("file_download", { file_name: "Baaapp.dmg", app_version: C.VERSION }));
+  });
   // Checkout: prefer a single-use session from our backend (carries return_url and
   // metadata server-side); fall back to Dodo's static payment link.
   document.querySelectorAll("[data-checkout]").forEach(el => {
@@ -20,6 +25,7 @@
     el.addEventListener("click", async e => {
       if (!configured) { e.preventDefault(); alert("Checkout isn't configured yet. Set DODO_PRODUCT_ID in config.js."); return; }
       e.preventDefault();
+      track("begin_checkout", { currency: "USD", value: parseFloat(String(C.PRICE).replace(/[^0-9.]/g, "")) || 0 });
       const label = el.innerHTML;
       el.innerHTML = "<span>Opening checkout…</span>";
       try {
@@ -56,8 +62,11 @@
       lede.textContent = "Dodo reported: " + status + ". Nothing was charged. You can try again, or write to us if it keeps happening.";
       document.getElementById("steps").hidden = true;
       document.getElementById("retryRow").hidden = false;
+      track("checkout_failed", { status });
     } else if (keys.length) {
       const key = keys[0];
+      track("purchase", { transaction_id: q.get("payment_id") || undefined, currency: "USD",
+        value: (parseFloat(String(C.PRICE).replace(/[^0-9.]/g, "")) || 0) * keys.length });
       keyText.textContent = key;
       keyBox.hidden = false;
       activate.href = "baaa://activate?key=" + encodeURIComponent(key);
